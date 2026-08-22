@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Submit your suggestions, skins, and new level ideas directly to developer Tejash on WhatsApp for Chuchu Bird.">
+    <title>Your Ideas - Chuchu Bird</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: linear-gradient(135deg, #0a0e27 0%, #1e1b4b 50%, #311042 100%); color: #f8fafc; min-height: 100vh; display: flex; flex-direction: column; }
+        header { background: rgba(15, 23, 42, 0.75); backdrop-filter: blur(12px); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(244, 114, 182, 0.2); }
+        .brand { display: flex; flex-direction: column; }
+        .logo { font-size: 1.6rem; font-weight: 800; background: linear-gradient(90deg, #f472b6, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .caption { font-size: 0.75rem; color: #94a3b8; letter-spacing: 1px; }
+        nav a { color: #cbd5e1; text-decoration: none; margin-left: 1.5rem; font-weight: 600; }
+        nav a:hover, nav a.active { color: #f472b6; }
+        .container { max-width: 650px; margin: 3rem auto; padding: 0 1.5rem; flex: 1; text-align: center; }
+        h1 { font-size: 2.3rem; color: #38bdf8; margin-bottom: 0.5rem; }
+        p.subtitle { color: #94a3b8; margin-bottom: 2rem; }
+        .form-card { background: rgba(30, 41, 59, 0.8); padding: 2rem; border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.1); backdrop-filter: blur(12px); text-align: left; }
+        .form-group { margin-bottom: 1.2rem; }
+        label { display: block; color: #cbd5e1; margin-bottom: 0.5rem; font-size: 0.95rem; }
+        input, textarea { width: 100%; padding: 12px 14px; background: #0f172a; border: 1px solid #475569; border-radius: 8px; color: #fff; font-size: 1rem; outline: none; }
+        input:focus, textarea:focus { border-color: #38bdf8; }
+        .whatsapp-btn { display: block; width: 100%; text-align: center; background: #25d366; color: #07381b; padding: 14px; border-radius: 8px; font-weight: 700; font-size: 1.05rem; border: none; cursor: pointer; text-decoration: none; margin-top: 1rem; transition: transform 0.2s, box-shadow 0.2s; }
+        .whatsapp-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4); }
+        footer { text-align: center; padding: 1.2rem; background: rgba(10, 14, 39, 0.9); color: #64748b; font-size: 0.85rem; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">
+            <span class="logo">🐦 Chuchu Bird</span>
+            <span class="caption">Made By Tejash</span>
+        </div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="ideas.html" class="active">Your Ideas</a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <h1>Send Your Game Ideas</h1>
+        <p class="subtitle">Have an awesome skin, new obstacle style, or soundtrack concept? Send it directly to WhatsApp!</p>
+
+        <div class="form-card">
+            <div class="form-group">
+                <label for="playerName">Your Name</label>
+                <input type="text" id="playerName" placeholder="Enter your name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="ideaText">Your Idea / Feature Request</label>
+                <textarea id="ideaText" rows="4" placeholder="e.g., Add a night-mode city background and shield power-ups!" required></textarea>
+            </div>
+
+            <button type="button" class="whatsapp-btn" onclick="sendToWhatsApp()">🚀 Send to WhatsApp (+91 9226014759)</button>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 Chuchu Bird Arcade. Developed with HTML5 Canvas & Web Audio API by Tejash.</p>
+    </footer>
+
+    <script>
+        function sendToWhatsApp() {
+            const name = document.getElementById("playerName").value.trim();
+            const idea = document.getElementById("ideaText").value.trim();
+
+            if (!name || !idea) {
+                alert("Please fill in both your name and idea first!");
+                return;
+            }
+
+            const message = `Hello Tejash! 👋%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Chuchu Bird Idea:* ${encodeURIComponent(idea)}`;
+            const waUrl = `https://wa.me/919226014759?text=${message}`;
+            window.open(waUrl, "_blank");
+        }
+    </script>
+</body>
+</html>

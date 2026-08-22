@@ -3,82 +3,350 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Play interactive coding quizzes in HTML, CSS, and Python on CodeQuest. Level up your programming skills easily.">
-    <meta name="keywords" content="coding quiz, learn python, html tutorial, web development, codequest">
-    <meta name="author" content="CodeQuest">
-    <title>CodeQuest - Learn Coding While Playing Quizzes</title>
+    <meta name="description" content="Play Chuchu Bird online with custom skin uploads, dynamic physics, and retro arcade sounds. Built by Tejash.">
+    <meta name="keywords" content="chuchu bird, flappy bird online, custom flappy bird, web game, tejash">
+    <meta name="author" content="Tejash">
+    <title>Chuchu Bird - Aesthetic Web Arcade Game</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0f172a; color: #f8fafc; line-height: 1.6; }
-        header { background: #1e293b; padding: 1.2rem 2rem; border-bottom: 2px solid #38bdf8; display: flex; justify-content: space-between; align-items: center; }
-        .logo { font-size: 1.5rem; font-weight: bold; color: #38bdf8; }
-        nav a { color: #cbd5e1; text-decoration: none; margin-left: 1.5rem; font-weight: 500; }
-        nav a:hover, nav a.active { color: #38bdf8; }
-        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
-        .hero { text-align: center; margin-bottom: 2.5rem; }
-        .hero h1 { font-size: 2.3rem; color: #38bdf8; margin-bottom: 0.8rem; }
-        .hero p { color: #94a3b8; font-size: 1.1rem; }
-        .quiz-card { background: #1e293b; border-radius: 12px; padding: 2rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid #334155; }
-        .quiz-card h2 { color: #f1f5f9; margin-bottom: 1rem; }
-        .btn-option { display: block; width: 100%; text-align: left; background: #334155; color: #fff; border: 1px solid #475569; padding: 12px 16px; margin: 10px 0; border-radius: 8px; cursor: pointer; font-size: 1rem; transition: 0.2s; }
-        .btn-option:hover { background: #475569; border-color: #38bdf8; }
-        #quiz-feedback { margin-top: 15px; font-weight: bold; }
-        .banner-img { width: 100%; max-height: 280px; object-fit: cover; border-radius: 10px; margin-bottom: 1.5rem; }
-        footer { text-align: center; padding: 2rem; background: #0b1120; color: #64748b; margin-top: 3rem; border-top: 1px solid #1e293b; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body {
+            background: linear-gradient(135deg, #0a0e27 0%, #1e1b4b 50%, #311042 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+        header {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(12px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(244, 114, 182, 0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .brand { display: flex; flex-direction: column; }
+        .logo { font-size: 1.6rem; font-weight: 800; background: linear-gradient(90deg, #f472b6, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .caption { font-size: 0.75rem; color: #94a3b8; letter-spacing: 1px; }
+        nav a { color: #cbd5e1; text-decoration: none; margin-left: 1.5rem; font-weight: 600; transition: 0.2s; }
+        nav a:hover, nav a.active { color: #f472b6; }
+        
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; }
+        .game-wrapper {
+            position: relative;
+            background: rgba(15, 23, 42, 0.8);
+            padding: 1.2rem;
+            border-radius: 20px;
+            box-shadow: 0 0 40px rgba(244, 114, 182, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+        }
+        canvas {
+            background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
+            border-radius: 12px;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            display: block;
+            margin: 0 auto;
+            max-width: 100%;
+        }
+        .controls-bar {
+            margin-top: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            justify-content: center;
+            align-items: center;
+        }
+        .upload-btn, .action-btn {
+            background: linear-gradient(135deg, #ec4899, #8b5cf6);
+            color: #fff;
+            padding: 8px 18px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .upload-btn:hover, .action-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); }
+        input[type="file"] { display: none; }
+        .hud-text { font-size: 0.85rem; color: #94a3b8; margin-top: 0.5rem; }
+        footer { text-align: center; padding: 1.2rem; background: rgba(10, 14, 39, 0.9); color: #64748b; font-size: 0.85rem; border-top: 1px solid rgba(255, 255, 255, 0.05); }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo">⚡ CodeQuest</div>
+        <div class="brand">
+            <span class="logo">🐦 Chuchu Bird</span>
+            <span class="caption">Made By Tejash</span>
+        </div>
         <nav>
             <a href="index.html" class="active">Home</a>
             <a href="about.html">About</a>
-            <a href="contact.html">Contact</a>
+            <a href="ideas.html">Your Ideas</a>
         </nav>
     </header>
 
-    <main class="container">
-        <section class="hero">
-            <h1>Level Up Your Coding Skills Through Play</h1>
-            <p>Master HTML, CSS, JavaScript, and Python with bite-sized daily challenge rounds.</p>
-        </section>
-
-        <!-- Topic Banner Image with proper Alt text for SEO -->
-        <img src="https://images.unsplash.com/photo-1516116211227-bbc1552a445c?w=900&auto=format&fit=crop&q=80" 
-             alt="Developer writing computer code on laptop" 
-             class="banner-img">
-
-        <section class="quiz-card">
-            <h2>🎮 Quick Challenge: Web Basics</h2>
-            <p id="question">What does the HTML &lt;title&gt; tag define?</p>
+    <main>
+        <div class="game-wrapper">
+            <canvas id="gameCanvas" width="360" height="520"></canvas>
             
-            <div id="options">
-                <button class="btn-option" onclick="checkAnswer(false)">A. The main heading inside the webpage body</button>
-                <button class="btn-option" onclick="checkAnswer(true)">B. The title of the page shown in the browser tab and search results</button>
-                <button class="btn-option" onclick="checkAnswer(false)">C. The author's legal copyright information</button>
-                <button class="btn-option" onclick="checkAnswer(false)">D. The background image URL</button>
+            <div class="controls-bar">
+                <label class="upload-btn">
+                    📷 Custom Skin
+                    <input type="file" id="skinInput" accept="image/*">
+                </label>
+                <button class="action-btn" id="resetSkinBtn">Reset Default</button>
             </div>
-            
-            <p id="quiz-feedback"></p>
-        </section>
+            <p class="hud-text">Tap canvas or press <b>SPACE</b> / <b>CLICK</b> to Fly & Start</p>
+        </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 CodeQuest Platform. Designed for Class 12 Science IT Practical Work.</p>
+        <p>&copy; 2026 Chuchu Bird Arcade. Developed with HTML5 Canvas & Web Audio API by Tejash.</p>
     </footer>
 
     <script>
-        function checkAnswer(isCorrect) {
-            const feedback = document.getElementById('quiz-feedback');
-            if (isCorrect) {
-                feedback.style.color = '#4ade80';
-                feedback.textContent = '🎉 Correct! <title> defines the title in browser tabs and search engine snippets.';
-            } else {
-                feedback.style.color = '#f87171';
-                feedback.textContent = '❌ Incorrect. Give it another shot!';
+        const canvas = document.getElementById("gameCanvas");
+        const ctx = canvas.getContext("2d");
+
+        // Audio synthesizer using Web Audio API (No external sound files required)
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        function playTone(freq, type, duration) {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.type = type;
+            osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            osc.connect(gain);
+            gain.connect(audioCtx.destination);
+            osc.start();
+            osc.stop(audioCtx.currentTime + duration);
+        }
+        const sfx = {
+            jump: () => playTone(400, 'sine', 0.15),
+            score: () => playTone(650, 'triangle', 0.2),
+            hit: () => playTone(120, 'sawtooth', 0.3)
+        };
+
+        // Game Physics & State
+        let gameState = 'START'; // START, PLAY, GAMEOVER
+        let frames = 0;
+        let score = 0;
+        let highScore = localStorage.getItem("chuchu_high") || 0;
+
+        let bird = {
+            x: 60,
+            y: 220,
+            radius: 16,
+            velocity: 0,
+            gravity: 0.28,
+            jump: -5.8,
+            customImg: null
+        };
+
+        let pipes = [];
+        const pipeWidth = 52;
+        const pipeGap = 130;
+
+        // Custom Skin Handlers
+        document.getElementById('skinInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(evt) {
+                    const img = new Image();
+                    img.src = evt.target.result;
+                    img.onload = () => { bird.customImg = img; };
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        document.getElementById('resetSkinBtn').addEventListener('click', () => {
+            bird.customImg = null;
+            document.getElementById('skinInput').value = '';
+        });
+
+        function resetGame() {
+            bird.y = 220;
+            bird.velocity = 0;
+            pipes = [];
+            score = 0;
+            frames = 0;
+            gameState = 'PLAY';
+        }
+
+        function flap() {
+            if (gameState === 'START') {
+                resetGame();
+                sfx.jump();
+            } else if (gameState === 'PLAY') {
+                bird.velocity = bird.jump;
+                sfx.jump();
+            } else if (gameState === 'GAMEOVER') {
+                resetGame();
             }
         }
+
+        window.addEventListener('keydown', (e) => { if (e.code === 'Space') flap(); });
+        canvas.addEventListener('pointerdown', flap);
+
+        // Game Engine Loop
+        function loop() {
+            update();
+            render();
+            frames++;
+            requestAnimationFrame(loop);
+        }
+
+        function update() {
+            if (gameState !== 'PLAY') return;
+
+            bird.velocity += bird.gravity;
+            bird.y += bird.velocity;
+
+            // Floor & Ceiling bounds
+            if (bird.y + bird.radius >= canvas.height - 20) {
+                sfx.hit();
+                triggerGameOver();
+            }
+            if (bird.y - bird.radius <= 0) bird.y = bird.radius;
+
+            // Pipe spawning
+            if (frames % 100 === 0) {
+                let maxTop = canvas.height - pipeGap - 80;
+                let topH = Math.floor(Math.random() * (maxTop - 50)) + 50;
+                pipes.push({ x: canvas.width, top: topH, passed: false });
+            }
+
+            for (let i = 0; i < pipes.length; i++) {
+                let p = pipes[i];
+                p.x -= 2;
+
+                // Collision detection
+                let birdRight = bird.x + bird.radius;
+                let birdLeft = bird.x - bird.radius;
+                let birdTop = bird.y - bird.radius;
+                let birdBottom = bird.y + bird.radius;
+
+                let bottomPipeY = p.top + pipeGap;
+
+                if (birdRight > p.x && birdLeft < p.x + pipeWidth) {
+                    if (birdTop < p.top || birdBottom > bottomPipeY) {
+                        sfx.hit();
+                        triggerGameOver();
+                    }
+                }
+
+                if (!p.passed && p.x + pipeWidth < bird.x) {
+                    score++;
+                    p.passed = true;
+                    sfx.score();
+                    if (score > highScore) {
+                        highScore = score;
+                        localStorage.setItem("chuchu_high", highScore);
+                    }
+                }
+            }
+
+            pipes = pipes.filter(p => p.x + pipeWidth > 0);
+        }
+
+        function triggerGameOver() {
+            gameState = 'GAMEOVER';
+        }
+
+        function render() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Aesthetic Stars / Background grid
+            ctx.fillStyle = "rgba(244, 114, 182, 0.1)";
+            ctx.fillRect(0, canvas.height - 20, canvas.width, 20);
+
+            // Draw Pipes
+            for (let p of pipes) {
+                let grad = ctx.createLinearGradient(p.x, 0, p.x + pipeWidth, 0);
+                grad.addColorStop(0, "#06b6d4");
+                grad.addColorStop(1, "#3b82f6");
+
+                ctx.fillStyle = grad;
+                ctx.shadowColor = "#06b6d4";
+                ctx.shadowBlur = 10;
+                // Top pipe
+                ctx.fillRect(p.x, 0, pipeWidth, p.top);
+                // Bottom pipe
+                ctx.fillRect(p.x, p.top + pipeGap, pipeWidth, canvas.height - (p.top + pipeGap) - 20);
+                ctx.shadowBlur = 0;
+            }
+
+            // Draw Bird / Skin
+            ctx.save();
+            ctx.translate(bird.x, bird.y);
+            ctx.rotate(Math.min(Math.PI / 4, Math.max(-Math.PI / 4, (bird.velocity * 4) * Math.PI / 180)));
+
+            if (bird.customImg) {
+                ctx.beginPath();
+                ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
+                ctx.closePath();
+                ctx.clip();
+                ctx.drawImage(bird.customImg, -bird.radius, -bird.radius, bird.radius * 2, bird.radius * 2);
+            } else {
+                // Default Chuchu Bird (Aesthetic Neon Chick)
+                ctx.fillStyle = "#fbbf24";
+                ctx.beginPath();
+                ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Eye
+                ctx.fillStyle = "#0f172a";
+                ctx.beginPath();
+                ctx.arc(6, -4, 3.5, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Beak
+                ctx.fillStyle = "#f97316";
+                ctx.beginPath();
+                ctx.moveTo(10, 0);
+                ctx.lineTo(20, 4);
+                ctx.lineTo(10, 8);
+                ctx.fill();
+            }
+            ctx.restore();
+
+            // UI Overlays
+            ctx.fillStyle = "#ffffff";
+            ctx.font = "bold 24px 'Segoe UI', sans-serif";
+            ctx.textAlign = "center";
+
+            if (gameState === 'START') {
+                ctx.fillText("🐦 CHUCHU BIRD", canvas.width / 2, 170);
+                ctx.font = "14px 'Segoe UI'";
+                ctx.fillStyle = "#94a3b8";
+                ctx.fillText("TAP OR PRESS SPACE TO FLY", canvas.width / 2, 210);
+            } else if (gameState === 'PLAY') {
+                ctx.fillText(score, canvas.width / 2, 50);
+            } else if (gameState === 'GAMEOVER') {
+                ctx.fillStyle = "#f43f5e";
+                ctx.fillText("GAME OVER", canvas.width / 2, 180);
+                ctx.fillStyle = "#f8fafc";
+                ctx.font = "18px 'Segoe UI'";
+                ctx.fillText("Score: " + score, canvas.width / 2, 220);
+                ctx.fillText("Best: " + highScore, canvas.width / 2, 250);
+                ctx.font = "13px 'Segoe UI'";
+                ctx.fillStyle = "#94a3b8";
+                ctx.fillText("TAP TO RETRY", canvas.width / 2, 290);
+            }
+        }
+
+        loop();
     </script>
 </body>
 </html>
