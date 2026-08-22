@@ -3,7 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Chuchu Bird - Made By Tejash</title>
+    
+    <title>Chuchu Bird - Play Free Online Flappy Crow Arcade Game | By Tejash</title>
+    <meta name="title" content="Chuchu Bird - Play Free Online Flappy Crow Arcade Game | By Tejash">
+    <meta name="description" content="Play Chuchu Bird online for free! Fly as ChuChu the Crow through 5 exciting maps (City, Jungle, Neon Cyber, Sunset), unlock custom skins, and beat high scores. Created by Tejash.">
+    <meta name="keywords" content="Chuchu Bird, Flappy Crow, Flappy Bird Online, HTML5 Bird Game, Browser Arcade Game, Play Free Games Online, Chuchu Bird Tejash">
+    <meta name="author" content="Tejash">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://yourwebsite.com/">
+
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://yourwebsite.com/">
+    <meta property="og:title" content="Chuchu Bird - Online Flappy Crow Game">
+    <meta property="og:description" content="Dodge obstacles, unlock epic skins, and explore 5 worlds with custom music in Chuchu Bird!">
+    <meta property="og:image" content="https://yourwebsite.com/ChuChu.png">
+
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://yourwebsite.com/">
+    <meta property="twitter:title" content="Chuchu Bird - Free Web Arcade Game">
+    <meta property="twitter:description" content="Play Chuchu Bird online for free right in your browser!">
+    <meta property="twitter:image" content="https://yourwebsite.com/ChuChu.png">
+
+    <link rel="icon" type="image/png" href="ChuChu.png">
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "VideoGame",
+      "name": "Chuchu Bird",
+      "genre": ["Arcade", "Casual", "Endless Runner"],
+      "gamePlatform": ["Web Browser", "Mobile Browser", "PC"],
+      "applicationCategory": "Game",
+      "operatingSystem": "Any",
+      "author": {
+        "@type": "Person",
+        "name": "Tejash"
+      },
+      "description": "An arcade browser game where players navigate ChuChu the Crow through challenging maps, collecting coins and unlocking skins.",
+      "inLanguage": "en",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "USD"
+      }
+    }
+    </script>
+
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;600;800&display=swap');
 
@@ -12,7 +57,7 @@
         body, html {
             width: 100%;
             height: 100%;
-            overflow: hidden;
+            overflow-x: hidden;
             background: #0b0f19;
             font-family: 'Outfit', sans-serif;
             color: #fff;
@@ -45,7 +90,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(10, 15, 30, 0.82);
+            background: rgba(10, 15, 30, 0.85);
             backdrop-filter: blur(10px);
             z-index: 50;
             padding: 20px;
@@ -101,6 +146,7 @@
             align-items: center;
             justify-content: center;
             gap: 10px;
+            text-decoration: none;
         }
         .pixel-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
         
@@ -111,7 +157,7 @@
         .btn-about { background: linear-gradient(180deg, #a855f7, #6b21a8); color: #fff; }
         .btn-secondary { background: linear-gradient(180deg, #475569, #1e293b); color: #fff; }
 
-        /* Top HUD */
+        /* Top In-Game HUD */
         #in-game-hud {
             position: absolute;
             top: 12px;
@@ -243,7 +289,7 @@
             border: 2px solid #fff;
         }
 
-        /* Game Over Dialog */
+        /* Results / Game Over Dialog */
         .hcr-dialog {
             background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
             border: 4px solid #ef4444;
@@ -412,11 +458,32 @@
         </div>
     </div>
 
+    <section id="game-info" style="max-width: 800px; margin: 40px auto; padding: 20px; color: #cbd5e1; font-family: sans-serif; line-height: 1.6;">
+        <h2 style="color: #facc15; font-size: 1.5rem; margin-bottom: 10px;">About Chuchu Bird Online Game</h2>
+        <p>
+            <strong>Chuchu Bird</strong> is a fast-paced, free-to-play HTML5 arcade game developed by Tejash. Control ChuChu the Crow as you flap through challenging pipes and obstacles across 5 unique maps: <em>City Skies, Jungle Day, Jungle Night, Neon Cyber, and Sunset Horizon</em>.
+        </p>
+        
+        <h3 style="color: #38bdf8; margin-top: 15px;">How to Play Chuchu Bird</h3>
+        <ul style="padding-left: 20px; margin-top: 5px;">
+            <li><strong>PC / Laptop:</strong> Press the <code>Spacebar</code> or click your mouse to flap and gain altitude.</li>
+            <li><strong>Mobile / Tablet:</strong> Tap the screen to jump and avoid crashing into obstacles.</li>
+            <li><strong>Goal:</strong> Reach the distance milestones to clear levels and collect golden coins to unlock custom character skins.</li>
+        </ul>
+
+        <h3 style="color: #38bdf8; margin-top: 15px;">Features</h3>
+        <ul style="padding-left: 20px; margin-top: 5px;">
+            <li>5 progressive map stages with dynamic backgrounds.</li>
+            <li>Custom skin store with exclusive character tracks (ChuChu, Cyber, Blossom, Modi).</li>
+            <li>Smooth performance on all mobile browsers with no downloads required.</li>
+        </ul>
+    </section>
+
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
-        // Web Audio Synthesizer SFX
+        // Web Audio Synthesizer SFX & BGM Fallback Engine
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function ensureAudio() { if (audioCtx.state === 'suspended') audioCtx.resume(); }
 
@@ -507,6 +574,81 @@
         let storedSkins = JSON.parse(localStorage.getItem("chuchu_unlocked_skins") || "{}");
         skins.forEach(s => { if (storedSkins[s.id]) s.unlocked = true; });
 
+        // Procedural Web Audio Synthesizer Patterns for Live Background Tracks
+        const proceduralTracks = {
+            chuchu: {
+                bpm: 110,
+                type: 'triangle',
+                notes: [220, 0, 246.94, 261.63, 220, 0, 196, 220, 174.61, 0, 196, 220, 164.81, 0, 174.61, 196],
+                bass: [110, 110, 98, 98, 87.31, 87.31, 82.41, 82.41]
+            },
+            cyber: {
+                bpm: 135,
+                type: 'sawtooth',
+                notes: [293.66, 329.63, 349.23, 440, 523.25, 440, 349.23, 329.63, 293.66, 349.23, 440, 587.33, 523.25, 440, 392, 349.23],
+                bass: [146.83, 146.83, 174.61, 174.61, 130.81, 130.81, 164.81, 164.81]
+            },
+            blossom: {
+                bpm: 125,
+                type: 'sine',
+                notes: [523.25, 587.33, 659.25, 783.99, 880, 783.99, 659.25, 587.33, 523.25, 659.25, 783.99, 1046.50, 880, 783.99, 659.25, 523.25],
+                bass: [261.63, 261.63, 329.63, 329.63, 349.23, 349.23, 392.00, 392.00]
+            }
+        };
+
+        let proceduralMusicTimer = null;
+        let proceduralTrackStep = 0;
+
+        function startProceduralBGM(skinKey) {
+            stopProceduralBGM();
+            ensureAudio();
+            const track = proceduralTracks[skinKey] || proceduralTracks['chuchu'];
+            const stepDuration = (60 / track.bpm) / 2;
+            proceduralTrackStep = 0;
+
+            proceduralMusicTimer = setInterval(() => {
+                if (gameState !== 'PLAY') return;
+                const now = audioCtx.currentTime;
+                const note = track.notes[proceduralTrackStep % track.notes.length];
+                const bass = track.bass[Math.floor((proceduralTrackStep % track.notes.length) / 2)];
+
+                if (note > 0) {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = track.type;
+                    osc.frequency.setValueAtTime(note, now);
+                    gain.gain.setValueAtTime(0.08, now);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + stepDuration * 0.9);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now);
+                    osc.stop(now + stepDuration * 0.9);
+                }
+
+                if (bass > 0) {
+                    const bOsc = audioCtx.createOscillator();
+                    const bGain = audioCtx.createGain();
+                    bOsc.type = 'triangle';
+                    bOsc.frequency.setValueAtTime(bass, now);
+                    bGain.gain.setValueAtTime(0.12, now);
+                    bGain.gain.exponentialRampToValueAtTime(0.001, now + stepDuration * 1.8);
+                    bOsc.connect(bGain);
+                    bGain.connect(audioCtx.destination);
+                    bOsc.start(now);
+                    bOsc.stop(now + stepDuration * 1.8);
+                }
+
+                proceduralTrackStep++;
+            }, stepDuration * 1000);
+        }
+
+        function stopProceduralBGM() {
+            if (proceduralMusicTimer) {
+                clearInterval(proceduralMusicTimer);
+                proceduralMusicTimer = null;
+            }
+        }
+
         // Per-Skin Music Controller
         const bgMusic = document.getElementById("bgMusic");
         function playCurrentSkinMusic() {
@@ -517,7 +659,18 @@
                 bgMusic.src = musicTrack;
                 bgMusic.load();
             }
-            bgMusic.play().catch(() => {});
+            
+            bgMusic.play().then(() => {
+                stopProceduralBGM();
+            }).catch(() => {
+                // If MP3/WAV is missing, fall back directly to the procedural synthesizer
+                startProceduralBGM(activeSkin);
+            });
+        }
+
+        function pauseCurrentSkinMusic() {
+            bgMusic.pause();
+            stopProceduralBGM();
         }
 
         // Game State Variables
@@ -559,7 +712,7 @@
             if (gameState === 'PLAY') {
                 sfx.button();
                 gameState = 'PAUSE';
-                bgMusic.pause();
+                pauseCurrentSkinMusic();
                 showScreen('hamburgerModal');
             }
         }
@@ -568,7 +721,7 @@
             sfx.button();
             showScreen(null);
             gameState = 'PLAY';
-            bgMusic.play().catch(()=>{});
+            playCurrentSkinMusic();
         }
 
         function quickRestart() {
@@ -579,7 +732,7 @@
         function returnToHome() {
             sfx.button();
             gameState = 'MENU';
-            bgMusic.pause();
+            pauseCurrentSkinMusic();
             document.getElementById('in-game-hud').classList.add('hidden');
             showScreen('mainMenu');
         }
@@ -778,7 +931,7 @@
         function handleVictory() {
             sfx.win();
             gameState = 'GAMEOVER';
-            bgMusic.pause();
+            pauseCurrentSkinMusic();
             if (unlockedLevels <= levels[activeLevel].id) {
                 unlockedLevels = levels[activeLevel].id + 1;
                 localStorage.setItem("chuchu_unlocked_lvl", unlockedLevels);
@@ -790,7 +943,7 @@
             sfx.hit();
             setTimeout(() => sfx.gameOver(), 120);
             gameState = 'GAMEOVER';
-            bgMusic.pause();
+            pauseCurrentSkinMusic();
             showGameOverCard(isWin);
         }
 
@@ -960,78 +1113,6 @@
                 ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
-        }
-
-        loop();
-    </script>
-</body>
-</html>
-rite image
-                ctx.scale(scaleX, 1);
-                ctx.drawImage(coinSpriteImg, -r, -r, r * 2, r * 2);
-            } else {
-                // 3D Vector Coin with Perspective & Rim Edge
-                ctx.scale(scaleX, 1);
-
-                // Coin Rim / Thickness
-                ctx.fillStyle = "#b45309";
-                ctx.beginPath();
-                ctx.arc(2, 0, r, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Coin Face
-                ctx.fillStyle = (scaleX > 0) ? "#facc15" : "#eab308";
-                ctx.beginPath();
-                ctx.arc(0, 0, r, 0, Math.PI * 2);
-                ctx.fill();
-
-                // Coin Edge Border
-                ctx.strokeStyle = "#ca8a04";
-                ctx.lineWidth = 2.5;
-                ctx.stroke();
-
-                // Inner Star / Dollar Glyph
-                ctx.fillStyle = "#78350f";
-                ctx.font = "bold 13px 'Press Start 2P'";
-                ctx.textAlign = "center";
-                ctx.textBaseline = "middle";
-                ctx.fillText("★", 0, 1);
-            }
-            ctx.restore();
-        }
-
-        function drawPipe(x, y, w, h) {
-            ctx.fillStyle = "#16a34a";
-            ctx.fillRect(x, y, w, h);
-            ctx.fillStyle = "#22c55e";
-            ctx.fillRect(x + 10, y, 16, h);
-            ctx.strokeStyle = "#000";
-            ctx.lineWidth = 4;
-            ctx.strokeRect(x, y, w, h);
-        }
-
-        function drawThemeBackground() {
-            const bg = levels[activeLevel].bg;
-            let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-            
-            if (bg === "city") {
-                grad.addColorStop(0, "#38bdf8");
-                grad.addColorStop(1, "#bae6fd");
-            } else if (bg === "jungle_day") {
-                grad.addColorStop(0, "#22c55e");
-                grad.addColorStop(1, "#14532d");
-            } else if (bg === "jungle_night") {
-                grad.addColorStop(0, "#022c22");
-                grad.addColorStop(1, "#0f172a");
-            } else if (bg === "neon") {
-                grad.addColorStop(0, "#3b0764");
-                grad.addColorStop(1, "#0f172a");
-            } else if (bg === "sunset") {
-                grad.addColorStop(0, "#f97316");
-                grad.addColorStop(1, "#4c0519");
-            }
-            ctx.fillStyle = grad;
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
 
         loop();
