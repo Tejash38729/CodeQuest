@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Chuchu Bird - Fullscreen arcade flappy game with level progress, coins, skins shop, custom skin unlocks, and custom sound effects. Created by Tejash.">
+    <meta name="description" content="Chuchu Bird - Fullscreen arcade flappy game with level progress, coins, skins shop, and custom skin unlocks. Created by Tejash.">
     <meta name="author" content="Tejash">
     <title>Chuchu Bird - Made By Tejash</title>
     <style>
@@ -15,7 +15,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #0f172a;
+            background: #0b0f19;
             font-family: 'Outfit', sans-serif;
             color: #fff;
         }
@@ -36,7 +36,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            image-rendering: pixelated;
+            image-rendering: crisp-edges;
         }
 
         /* Fullscreen Overlay Menus */
@@ -47,8 +47,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            background: rgba(10, 15, 30, 0.75);
-            backdrop-filter: blur(8px);
+            background: rgba(10, 15, 30, 0.82);
+            backdrop-filter: blur(10px);
             z-index: 50;
             padding: 20px;
             transition: all 0.3s ease;
@@ -59,7 +59,7 @@
         /* Retro Arcade Typography */
         .retro-title {
             font-family: 'Press Start 2P', cursive;
-            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
             color: #facc15;
             text-shadow: 4px 4px 0 #000, -3px -3px 0 #ef4444, 3px -3px 0 #3b82f6;
             margin-bottom: 6px;
@@ -70,7 +70,7 @@
 
         .creator-caption {
             font-family: 'Press Start 2P', cursive;
-            font-size: clamp(0.65rem, 1.8vw, 0.9rem);
+            font-size: clamp(0.65rem, 1.8vw, 0.85rem);
             color: #38bdf8;
             margin-bottom: 25px;
             letter-spacing: 1px;
@@ -93,71 +93,69 @@
 
         .pixel-btn {
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             padding: 14px 18px;
-            border: 4px solid #000;
-            border-radius: 8px;
+            border: 3px solid #000;
+            border-radius: 10px;
             cursor: pointer;
             text-align: center;
             transition: transform 0.1s, filter 0.2s;
             box-shadow: inset 0 -4px 0 rgba(0,0,0,0.35), 0 4px 0 #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
         .pixel-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
         
-        .btn-start { background: #22c55e; color: #fff; }
-        .btn-shop { background: #f59e0b; color: #fff; }
-        .btn-levels { background: #3b82f6; color: #fff; }
-        .btn-ideas { background: #25d366; color: #022c22; }
-        .btn-about { background: #a855f7; color: #fff; }
-        .btn-secondary { background: #475569; color: #fff; }
+        .btn-start { background: linear-gradient(180deg, #22c55e, #15803d); color: #fff; }
+        .btn-shop { background: linear-gradient(180deg, #f59e0b, #b45309); color: #fff; }
+        .btn-levels { background: linear-gradient(180deg, #3b82f6, #1d4ed8); color: #fff; }
+        .btn-ideas { background: linear-gradient(180deg, #25d366, #128c7e); color: #fff; }
+        .btn-about { background: linear-gradient(180deg, #a855f7, #6b21a8); color: #fff; }
+        .btn-secondary { background: linear-gradient(180deg, #475569, #1e293b); color: #fff; }
 
-        /* Modal Dialog Box */
-        .modal-box {
-            background: #1e293b;
-            border: 4px solid #38bdf8;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(56, 189, 248, 0.2);
-            border-radius: 16px;
-            padding: 24px;
-            width: 100%;
-            max-width: 480px;
-            max-height: 85vh;
-            overflow-y: auto;
-            text-align: center;
-        }
-        .modal-title {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1.2rem;
-            color: #facc15;
-            margin-bottom: 18px;
-            text-shadow: 2px 2px 0 #000;
-        }
-
-        /* Top HUD / In-Game Controls */
+        /* Long Horizontal Top HUD */
         #in-game-hud {
             position: absolute;
-            top: 15px;
+            top: 12px;
             left: 0;
             width: 100%;
-            padding: 0 20px;
+            padding: 0 16px;
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            gap: 12px;
             z-index: 40;
             pointer-events: none;
         }
         #in-game-hud * { pointer-events: auto; }
 
+        .hud-coin-box {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.75rem;
+            background: rgba(15, 23, 42, 0.85);
+            border: 2px solid #facc15;
+            padding: 8px 12px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            white-space: nowrap;
+        }
+
+        /* Extra Long Horizontal Progress Bar */
         .progress-container {
             flex: 1;
-            max-width: 380px;
-            margin: 0 15px;
-            background: rgba(0,0,0,0.7);
-            border: 3px solid #fff;
+            width: 100%;
+            background: rgba(15, 23, 42, 0.85);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 12px;
-            padding: 4px;
+            padding: 5px 8px;
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 4px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.6);
         }
         .progress-header {
             display: flex;
@@ -165,86 +163,128 @@
             font-family: 'Press Start 2P', cursive;
             font-size: 0.6rem;
             color: #facc15;
-            padding: 2px 6px;
+            padding: 0 2px;
+        }
+        .progress-bar-track {
+            width: 100%;
+            height: 12px;
+            background: #1e293b;
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid #334155;
         }
         .progress-bar-fill {
-            height: 14px;
+            height: 100%;
             width: 0%;
-            background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
+            background: linear-gradient(90deg, #ef4444, #f59e0b 50%, #22c55e);
             border-radius: 6px;
-            transition: width 0.1s linear;
+            transition: width 0.15s ease-out;
+            box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
         }
 
-        .hud-stat-box {
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.75rem;
-            background: rgba(0,0,0,0.75);
-            border: 2px solid #facc15;
-            padding: 8px 12px;
-            border-radius: 8px;
+        /* Hamburger Button */
+        .hamburger-btn {
+            background: rgba(15, 23, 42, 0.9);
+            border: 2px solid #38bdf8;
+            color: #38bdf8;
+            font-size: 1.3rem;
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            cursor: pointer;
             display: flex;
             align-items: center;
-            gap: 6px;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            transition: transform 0.1s, background 0.2s;
         }
+        .hamburger-btn:active { transform: scale(0.92); background: #38bdf8; color: #000; }
 
-        .hud-buttons { display: flex; gap: 8px; }
-        .hud-icon-btn {
-            background: rgba(15, 23, 42, 0.85);
-            border: 2px solid #fff;
-            color: #fff;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.75rem;
-            width: 38px;
-            height: 38px;
-            border-radius: 8px;
-            cursor: pointer;
-        }
-
-        /* Hill Climb Style Game Over Box */
+        /* Beautiful Game Over & Victory Card */
         .hcr-dialog {
-            background: #1e1b4b;
-            border: 6px solid #ef4444;
-            border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0,0,0,0.9);
-            padding: 25px;
+            background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
+            border: 4px solid #ef4444;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(239, 68, 68, 0.2);
+            padding: 28px 24px;
             width: 100%;
-            max-width: 420px;
+            max-width: 400px;
             text-align: center;
-            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
         }
         @keyframes popIn {
             0% { transform: scale(0.7); opacity: 0; }
             100% { transform: scale(1); opacity: 1; }
         }
-        .stat-badge {
-            background: rgba(0,0,0,0.4);
-            border-radius: 10px;
-            padding: 10px;
-            margin: 8px 0;
+
+        .hcr-ribbon {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .ribbon-lost { background: #ef4444; color: #fff; text-shadow: 2px 2px 0 #000; }
+        .ribbon-won { background: #22c55e; color: #fff; text-shadow: 2px 2px 0 #000; }
+
+        .stat-card-group {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .stat-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-family: 'Press Start 2P', cursive;
-            font-size: 0.75rem;
+            font-size: 0.72rem;
         }
 
-        /* Grid Items for Skins & Levels */
+        /* Modal Dialog Box */
+        .modal-box {
+            background: #1e293b;
+            border: 3px solid #38bdf8;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+            border-radius: 18px;
+            padding: 24px;
+            width: 100%;
+            max-width: 440px;
+            max-height: 85vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+        .modal-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.1rem;
+            color: #facc15;
+            margin-bottom: 18px;
+            text-shadow: 2px 2px 0 #000;
+        }
+
         .item-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
             gap: 12px;
             margin: 15px 0;
         }
         .grid-card {
             background: #0f172a;
             border: 2px solid #334155;
-            border-radius: 10px;
+            border-radius: 12px;
             padding: 12px;
             cursor: pointer;
             transition: 0.2s;
         }
         .grid-card.active { border-color: #22c55e; box-shadow: 0 0 12px #22c55e; }
-        .grid-card.locked { opacity: 0.5; filter: grayscale(1); }
+        .grid-card.locked { opacity: 0.45; filter: grayscale(1); }
         .grid-card h4 { font-size: 0.85rem; margin-top: 6px; }
 
         input, textarea {
@@ -252,8 +292,8 @@
             background: #0f172a;
             border: 2px solid #475569;
             color: #fff;
-            padding: 10px;
-            border-radius: 8px;
+            padding: 12px;
+            border-radius: 10px;
             margin-bottom: 10px;
             font-family: inherit;
         }
@@ -267,21 +307,19 @@
         <canvas id="gameCanvas" width="720" height="1280"></canvas>
 
         <div id="in-game-hud" class="hidden">
-            <div class="hud-stat-box">🪙 <span id="hudCoins">0</span></div>
+            <div class="hud-coin-box">🪙 <span id="hudCoins">0</span></div>
             
             <div class="progress-container">
                 <div class="progress-header">
                     <span id="levelLabel">LVL 1</span>
                     <span id="distLabel">0m / 50m</span>
                 </div>
-                <div class="progress-bar-fill" id="progressBar"></div>
+                <div class="progress-bar-track">
+                    <div class="progress-bar-fill" id="progressBar"></div>
+                </div>
             </div>
 
-            <div class="hud-buttons">
-                <button class="hud-icon-btn" onclick="togglePause()">⏸</button>
-                <button class="hud-icon-btn" onclick="quickRestart()">🔄</button>
-                <button class="hud-icon-btn" onclick="returnToHome()">🏠</button>
-            </div>
+            <button class="hamburger-btn" onclick="openHamburgerMenu()">☰</button>
         </div>
 
         <div id="mainMenu" class="overlay-screen">
@@ -297,6 +335,17 @@
             </div>
         </div>
 
+        <div id="hamburgerModal" class="overlay-screen hidden">
+            <div class="modal-box" style="max-width: 340px;">
+                <h2 class="modal-title">PAUSED</h2>
+                <div class="menu-btn-group" style="margin: 0 auto;">
+                    <button class="pixel-btn btn-start" onclick="resumeGame()">▶ RESUME</button>
+                    <button class="pixel-btn btn-levels" onclick="quickRestart()">🔄 RESTART</button>
+                    <button class="pixel-btn btn-secondary" onclick="returnToHome()">🏠 MAIN MENU</button>
+                </div>
+            </div>
+        </div>
+
         <div id="levelModal" class="overlay-screen hidden">
             <div class="modal-box">
                 <h2 class="modal-title">SELECT MAP</h2>
@@ -308,13 +357,13 @@
         <div id="skinModal" class="overlay-screen hidden">
             <div class="modal-box">
                 <h2 class="modal-title">BIRD SKINS</h2>
-                <div class="hud-stat-box" style="justify-content: center; margin-bottom: 10px;">
+                <div class="hud-coin-box" style="justify-content: center; margin-bottom: 12px;">
                     YOUR COINS: 🪙 <span id="shopCoins">0</span>
                 </div>
                 <div class="item-grid" id="skinGrid"></div>
 
-                <div id="customSkinSection" style="margin-top: 15px; border-top: 1px dashed #475569; padding-top: 10px;">
-                    <p id="customSkinLockMsg" style="color: #f87171; font-size: 0.8rem; font-family: 'Press Start 2P'; margin-bottom: 8px;">
+                <div id="customSkinSection" style="margin-top: 15px; border-top: 1px dashed #475569; padding-top: 12px;">
+                    <p id="customSkinLockMsg" style="color: #f87171; font-size: 0.72rem; font-family: 'Press Start 2P'; margin-bottom: 8px; line-height: 1.5;">
                         🔒 Clear Level 2 (100m) to Unlock Custom Skin Upload!
                     </p>
                     <label id="uploadBtnLabel" class="pixel-btn btn-start hidden" style="display: block; cursor: pointer;">
@@ -352,36 +401,27 @@
 
         <div id="gameOverModal" class="overlay-screen hidden">
             <div class="hcr-dialog" id="gameOverCard">
-                <h2 class="modal-title" id="gameOverHeading" style="color: #ef4444;">GAME OVER</h2>
+                <div id="gameOverRibbon" class="hcr-ribbon ribbon-lost">CRASHED!</div>
                 
-                <div class="stat-badge">
-                    <span>DISTANCE:</span>
-                    <span id="resDist" style="color: #38bdf8;">0m</span>
-                </div>
-                <div class="stat-badge">
-                    <span>COINS COLLECTED:</span>
-                    <span id="resCoins" style="color: #facc15;">+0</span>
-                </div>
-                <div class="stat-badge">
-                    <span>TOTAL WALLET:</span>
-                    <span id="resTotalCoins" style="color: #4ade80;">0</span>
+                <div class="stat-card-group">
+                    <div class="stat-row">
+                        <span style="color:#94a3b8;">DISTANCE:</span>
+                        <span id="resDist" style="color:#38bdf8;">0m</span>
+                    </div>
+                    <div class="stat-row">
+                        <span style="color:#94a3b8;">COINS EARNED:</span>
+                        <span id="resCoins" style="color:#facc15;">+0</span>
+                    </div>
+                    <div class="stat-row">
+                        <span style="color:#94a3b8;">TOTAL WALLET:</span>
+                        <span id="resTotalCoins" style="color:#4ade80;">0</span>
+                    </div>
                 </div>
 
-                <div class="menu-btn-group" style="margin-top: 15px;">
-                    <button class="pixel-btn btn-start" onclick="startGame()">🔄 RETRY</button>
-                    <button class="pixel-btn btn-shop" onclick="showScreen('skinModal')">👕 SKINS</button>
+                <div class="menu-btn-group" style="margin: 0 auto;">
+                    <button class="pixel-btn btn-start" onclick="startGame()">🔄 PLAY AGAIN</button>
+                    <button class="pixel-btn btn-shop" onclick="showScreen('skinModal')">👕 SKINS & SHOP</button>
                     <button class="pixel-btn btn-secondary" onclick="showScreen('mainMenu')">🏠 MAIN MENU</button>
-                </div>
-            </div>
-        </div>
-
-        <div id="pauseModal" class="overlay-screen hidden">
-            <div class="modal-box">
-                <h2 class="modal-title">GAME PAUSED</h2>
-                <div class="menu-btn-group">
-                    <button class="pixel-btn btn-start" onclick="togglePause()">▶ RESUME</button>
-                    <button class="pixel-btn btn-secondary" onclick="quickRestart()">🔄 RESTART</button>
-                    <button class="pixel-btn btn-secondary" onclick="returnToHome()">🏠 HOME</button>
                 </div>
             </div>
         </div>
@@ -393,12 +433,9 @@
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = "high";
 
-        // --- ENHANCED AUDIO SYNTHESIZER (No External Sound Files Required) ---
+        // Web Audio Synthesizer
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        
-        function ensureAudio() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-        }
+        function ensureAudio() { if (audioCtx.state === 'suspended') audioCtx.resume(); }
 
         function playCustomTone(freq, type, duration, startVol = 0.25, endVol = 0.001) {
             ensureAudio();
@@ -414,35 +451,26 @@
             osc.stop(audioCtx.currentTime + duration);
         }
 
-        // Comprehensive SFX Engine
         const sfx = {
-            // 1. Button Press Sound (Snappy pop)
             button: () => {
                 playCustomTone(600, 'square', 0.05, 0.15);
                 setTimeout(() => playCustomTone(800, 'sine', 0.06, 0.1), 30);
             },
-            // 2. Bird Flap / Jump
-            jump: () => {
-                playCustomTone(420, 'sine', 0.12, 0.2);
-            },
-            // 3. Points & Coin Collected Sound (Bright double ding)
+            jump: () => playCustomTone(420, 'sine', 0.12, 0.2),
             coin: () => {
                 playCustomTone(987, 'triangle', 0.09, 0.3);
                 setTimeout(() => playCustomTone(1318, 'sine', 0.16, 0.3), 70);
             },
-            // 4. Hit / Pipe Collision Sound (Heavy crunchy thud)
             hit: () => {
                 playCustomTone(130, 'sawtooth', 0.2, 0.4);
                 setTimeout(() => playCustomTone(65, 'square', 0.25, 0.35), 40);
             },
-            // 5. Game Over Sound (Sad 8-bit descending arpeggio)
             gameOver: () => {
                 playCustomTone(440, 'sawtooth', 0.15, 0.25);
                 setTimeout(() => playCustomTone(370, 'sawtooth', 0.15, 0.25), 140);
                 setTimeout(() => playCustomTone(311, 'sawtooth', 0.18, 0.25), 280);
                 setTimeout(() => playCustomTone(220, 'sawtooth', 0.35, 0.3), 420);
             },
-            // 6. Level Victory Sound (Upbeat fanfare)
             win: () => {
                 playCustomTone(523, 'sine', 0.12, 0.25);
                 setTimeout(() => playCustomTone(659, 'sine', 0.12, 0.25), 100);
@@ -451,20 +479,14 @@
             }
         };
 
-        // Attach Button Press Sound to all UI buttons automatically
+        // Attach Button Sound
         document.querySelectorAll('button, .pixel-btn').forEach(btn => {
-            btn.addEventListener('pointerdown', () => {
-                sfx.button();
-            });
+            btn.addEventListener('pointerdown', () => sfx.button());
         });
 
-        // Background Music Handler
+        // Background Music
         const bgMusic = document.getElementById("bgMusic");
-        function playMusic() {
-            bgMusic.play().catch(() => {
-                // Autoplay policy or no music.mp3 found
-            });
-        }
+        function playMusic() { bgMusic.play().catch(() => {}); }
 
         // Game Configuration & Storage
         let coins = parseInt(localStorage.getItem("chuchu_coins") || "0");
@@ -488,13 +510,12 @@
             { id: "pink", name: "Blossom", cost: 100, unlocked: false, color: "#f472b6" }
         ];
 
-        // Load skin unlock states
         let storedSkins = JSON.parse(localStorage.getItem("chuchu_unlocked_skins") || "{}");
         skins.forEach(s => { if (storedSkins[s.id]) s.unlocked = true; });
 
         // Game State Variables
         let gameState = 'MENU'; // MENU, PLAY, PAUSE, GAMEOVER
-        let bird = { x: 160, y: 500, radius: 36, velocity: 0, gravity: 0.52, jump: -10.2 };
+        let bird = { x: 160, y: 500, radius: 36, velocity: 0, gravity: 0.50, jump: -10.0 };
         let pipes = [];
         let coinPickups = [];
         let currentDistance = 0;
@@ -521,12 +542,38 @@
             }
         });
 
-        // UI & Screen Switching
+        // UI & Modal Controllers
         function showScreen(screenId) {
             document.querySelectorAll('.overlay-screen').forEach(s => s.classList.add('hidden'));
             if (screenId) document.getElementById(screenId).classList.remove('hidden');
             if (screenId === 'levelModal') renderLevelSelect();
             if (screenId === 'skinModal') renderSkinShop();
+        }
+
+        function openHamburgerMenu() {
+            if (gameState === 'PLAY') {
+                sfx.button();
+                gameState = 'PAUSE';
+                showScreen('hamburgerModal');
+            }
+        }
+
+        function resumeGame() {
+            sfx.button();
+            showScreen(null);
+            gameState = 'PLAY';
+        }
+
+        function quickRestart() {
+            sfx.button();
+            startGame();
+        }
+
+        function returnToHome() {
+            sfx.button();
+            gameState = 'MENU';
+            document.getElementById('in-game-hud').classList.add('hidden');
+            showScreen('mainMenu');
         }
 
         function renderLevelSelect() {
@@ -601,7 +648,7 @@
             window.open(`https://wa.me/919226014759?text=${msg}`, "_blank");
         }
 
-        // Core Game Loops
+        // Gameplay Controller
         function startGame() {
             showScreen(null);
             document.getElementById('in-game-hud').classList.remove('hidden');
@@ -617,26 +664,6 @@
             sfx.jump();
         }
 
-        function togglePause() {
-            if (gameState === 'PLAY') {
-                gameState = 'PAUSE';
-                showScreen('pauseModal');
-            } else if (gameState === 'PAUSE') {
-                showScreen(null);
-                gameState = 'PLAY';
-            }
-        }
-
-        function quickRestart() {
-            startGame();
-        }
-
-        function returnToHome() {
-            gameState = 'MENU';
-            document.getElementById('in-game-hud').classList.add('hidden');
-            showScreen('mainMenu');
-        }
-
         function flap() {
             ensureAudio();
             if (gameState === 'PLAY') {
@@ -646,11 +673,9 @@
         }
 
         window.addEventListener('keydown', (e) => { if (e.code === 'Space') flap(); });
-        canvas.addEventListener('pointerdown', (e) => {
-            if (gameState === 'PLAY') flap();
-        });
+        canvas.addEventListener('pointerdown', (e) => { if (gameState === 'PLAY') flap(); });
 
-        // Game Engine Loop
+        // Game Loop
         function loop() {
             update();
             render();
@@ -664,8 +689,10 @@
             bird.velocity += bird.gravity;
             bird.y += bird.velocity;
 
-            // Distance meter
-            if (frameCount % 6 === 0) currentDistance++;
+            // SLOW & BALANCED DISTANCE METER PROGRESSION (1 meter every 28 frames)
+            if (frameCount % 28 === 0) {
+                currentDistance++;
+            }
 
             const currentLvl = levels[activeLevel];
             const progressPercent = Math.min(100, (currentDistance / currentLvl.goal) * 100);
@@ -674,32 +701,31 @@
             document.getElementById('distLabel').innerText = `${currentDistance}m / ${currentLvl.goal}m`;
             document.getElementById('hudCoins').innerText = sessionCoins;
 
-            // Check Level Victory
+            // Level Cleared
             if (currentDistance >= currentLvl.goal) {
                 handleVictory();
                 return;
             }
 
-            // Floor / Roof Collision
+            // Boundary Hit
             if (bird.y + bird.radius >= canvas.height - 80 || bird.y - bird.radius <= 0) {
                 handleGameOver(false);
                 return;
             }
 
             // Pipe & Coin Spawning
-            if (frameCount % 110 === 0) {
-                const pipeGap = 280;
-                const topHeight = Math.floor(Math.random() * (canvas.height - pipeGap - 300)) + 120;
+            if (frameCount % 115 === 0) {
+                const pipeGap = 285;
+                const topHeight = Math.floor(Math.random() * (canvas.height - pipeGap - 320)) + 120;
                 pipes.push({ x: canvas.width, top: topHeight, gap: pipeGap, passed: false });
 
-                // Spawn Coin in middle of pipe
                 coinPickups.push({ x: canvas.width + 45, y: topHeight + (pipeGap / 2), radius: 18, collected: false });
             }
 
-            // Pipe Updates & Collisions
+            // Pipe Collisions
             for (let i = pipes.length - 1; i >= 0; i--) {
                 const p = pipes[i];
-                p.x -= 4.2;
+                p.x -= 3.8;
 
                 const birdRight = bird.x + bird.radius - 6;
                 const birdLeft = bird.x - bird.radius + 6;
@@ -715,7 +741,6 @@
 
                 if (!p.passed && p.x + 90 < bird.x) {
                     p.passed = true;
-                    // Passing pipe adds point sound
                     sfx.coin();
                 }
 
@@ -725,7 +750,7 @@
             // Coin Pickups
             for (let i = coinPickups.length - 1; i >= 0; i--) {
                 const c = coinPickups[i];
-                c.x -= 4.2;
+                c.x -= 3.8;
 
                 const dist = Math.hypot(bird.x - c.x, bird.y - c.y);
                 if (dist < bird.radius + c.radius && !c.collected) {
@@ -750,7 +775,7 @@
 
         function handleGameOver(isWin) {
             sfx.hit();
-            setTimeout(() => sfx.gameOver(), 150);
+            setTimeout(() => sfx.gameOver(), 120);
             gameState = 'GAMEOVER';
             showGameOverCard(isWin);
         }
@@ -759,10 +784,21 @@
             coins += sessionCoins;
             localStorage.setItem("chuchu_coins", coins);
 
-            document.getElementById('gameOverHeading').innerText = isWin ? "🎉 LEVEL CLEARED!" : "💥 CRASHED!";
-            document.getElementById('gameOverHeading').style.color = isWin ? "#4ade80" : "#ef4444";
-            document.getElementById('gameOverCard').style.borderColor = isWin ? "#22c55e" : "#ef4444";
-            
+            const ribbon = document.getElementById('gameOverRibbon');
+            const card = document.getElementById('gameOverCard');
+
+            if (isWin) {
+                ribbon.className = "hcr-ribbon ribbon-won";
+                ribbon.innerText = "🎉 LEVEL CLEARED!";
+                card.style.borderColor = "#22c55e";
+                card.style.boxShadow = "0 20px 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(34, 197, 94, 0.2)";
+            } else {
+                ribbon.className = "hcr-ribbon ribbon-lost";
+                ribbon.innerText = "💥 CRASHED!";
+                card.style.borderColor = "#ef4444";
+                card.style.boxShadow = "0 20px 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(239, 68, 68, 0.2)";
+            }
+
             document.getElementById('resDist').innerText = `${currentDistance}m`;
             document.getElementById('resCoins').innerText = `+${sessionCoins}`;
             document.getElementById('resTotalCoins').innerText = coins;
@@ -775,13 +811,13 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawThemeBackground();
 
-            // Render Pipes
+            // Pipes
             for (let p of pipes) {
                 drawPipe(p.x, 0, 90, p.top);
                 drawPipe(p.x, p.top + p.gap, 90, canvas.height - (p.top + p.gap) - 80);
             }
 
-            // Render Coins
+            // Coins
             for (let c of coinPickups) {
                 ctx.fillStyle = "#facc15";
                 ctx.beginPath();
@@ -797,7 +833,7 @@
                 ctx.fillText("$", c.x, c.y + 5);
             }
 
-            // Render Bird
+            // Bird
             ctx.save();
             ctx.translate(bird.x, bird.y);
             const rot = Math.min(Math.PI / 4, Math.max(-Math.PI / 4, (bird.velocity * 3) * Math.PI / 180));
@@ -845,7 +881,7 @@
             }
             ctx.restore();
 
-            // Ground Grass / City Road
+            // Ground Road
             ctx.fillStyle = "#1e293b";
             ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
             ctx.fillStyle = "#22c55e";
@@ -886,7 +922,6 @@
             ctx.fillRect(0, 0, canvas.width, canvas.height);
         }
 
-        // Start animation loop
         loop();
     </script>
 </body>
