@@ -200,7 +200,7 @@
         }
         .hamburger-btn:active { transform: scale(0.92); background: #38bdf8; color: #000; }
 
-        /* Beautiful Game Over & Victory Card */
+        /* Game Over & Victory Dialog */
         .hcr-dialog {
             background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
             border: 4px solid #ef4444;
@@ -271,7 +271,7 @@
 
         .item-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
             gap: 12px;
             margin: 15px 0;
         }
@@ -282,10 +282,22 @@
             padding: 12px;
             cursor: pointer;
             transition: 0.2s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
         .grid-card.active { border-color: #22c55e; box-shadow: 0 0 12px #22c55e; }
         .grid-card.locked { opacity: 0.45; filter: grayscale(1); }
-        .grid-card h4 { font-size: 0.85rem; margin-top: 6px; }
+        .grid-card h4 { font-size: 0.82rem; margin-top: 8px; }
+
+        .skin-preview-thumb {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #fff;
+        }
 
         input, textarea {
             width: 100%;
@@ -488,11 +500,17 @@
         const bgMusic = document.getElementById("bgMusic");
         function playMusic() { bgMusic.play().catch(() => {}); }
 
+        // Optional External Texture for Coin Sprite (if you upload coin.png)
+        const coinSpriteImg = new Image();
+        coinSpriteImg.src = "coin.png";
+        let coinTextureLoaded = false;
+        coinSpriteImg.onload = () => { coinTextureLoaded = true; };
+
         // Game Configuration & Storage
         let coins = parseInt(localStorage.getItem("chuchu_coins") || "0");
         let unlockedLevels = parseInt(localStorage.getItem("chuchu_unlocked_lvl") || "1");
         let activeLevel = 0;
-        let activeSkin = localStorage.getItem("chuchu_active_skin") || "yellow";
+        let activeSkin = localStorage.getItem("chuchu_active_skin") || "flappy";
         let customSkinImg = null;
 
         const levels = [
@@ -503,12 +521,21 @@
             { id: 5, name: "Sunset Horizon", goal: 250, bg: "sunset", color: "#f97316" }
         ];
 
+        // Custom named skins with auto-loading image textures
         const skins = [
-            { id: "yellow", name: "Chuchu", cost: 0, unlocked: true, color: "#facc15" },
-            { id: "red", name: "Phoenix", cost: 30, unlocked: false, color: "#ef4444" },
-            { id: "cyber", name: "Cyber-99", cost: 60, unlocked: false, color: "#06b6d4" },
-            { id: "pink", name: "Blossom", cost: 100, unlocked: false, color: "#f472b6" }
+            { id: "flappy", name: "Flappy", file: "Flappy.png", cost: 0, unlocked: true, color: "#facc15" },
+            { id: "modi", name: "Modi", file: "Modi.png", cost: 30, unlocked: false, color: "#f97316" },
+            { id: "cyber", name: "Cyber", file: "Cyber.png", cost: 60, unlocked: false, color: "#06b6d4" },
+            { id: "blossom", name: "Blossom", file: "Blossom.png", cost: 100, unlocked: false, color: "#f472b6" }
         ];
+
+        // Preload skin textures
+        skins.forEach(s => {
+            s.img = new Image();
+            s.img.src = s.file;
+            s.imgLoaded = false;
+            s.img.onload = () => { s.imgLoaded = true; };
+        });
 
         let storedSkins = JSON.parse(localStorage.getItem("chuchu_unlocked_skins") || "{}");
         skins.forEach(s => { if (storedSkins[s.id]) s.unlocked = true; });
@@ -602,11 +629,16 @@
             
             skins.forEach(s => {
                 const card = document.createElement('div');
-                card.className = `grid-card ${activeSkin === s.id ? 'active' : ''}`;
+                card.className = `grid-card ${activeSkin === s.id ? 'active' : ''} ${!s.unlocked ? 'locked' : ''}`;
+                
+                const thumbHtml = s.imgLoaded 
+                    ? `<img src="${s.file}" class="skin-preview-thumb" alt="${s.name}">`
+                    : `<div style="width:40px; height:40px; border-radius:50%; background:${s.color}; border:2px solid #fff;"></div>`;
+
                 card.innerHTML = `
-                    <div style="width:36px; height:36px; border-radius:50%; background:${s.color}; margin:0 auto; border:2px solid #fff;"></div>
+                    ${thumbHtml}
                     <h4>${s.name}</h4>
-                    <p style="font-size:0.75rem; color:#facc15;">${s.unlocked ? 'Unlocked' : `🪙 ${s.cost}`}</p>
+                    <p style="font-size:0.72rem; color:#facc15; margin-top:4px;">${s.unlocked ? 'Equip' : `🪙 ${s.cost}`}</p>
                 `;
                 card.onclick = () => selectOrBuySkin(s);
                 grid.appendChild(card);
@@ -689,7 +721,7 @@
             bird.velocity += bird.gravity;
             bird.y += bird.velocity;
 
-            // SLOW & BALANCED DISTANCE METER PROGRESSION (1 meter every 28 frames)
+            // Slow balanced distance meter progression
             if (frameCount % 28 === 0) {
                 currentDistance++;
             }
@@ -719,7 +751,14 @@
                 const topHeight = Math.floor(Math.random() * (canvas.height - pipeGap - 320)) + 120;
                 pipes.push({ x: canvas.width, top: topHeight, gap: pipeGap, passed: false });
 
-                coinPickups.push({ x: canvas.width + 45, y: topHeight + (pipeGap / 2), radius: 18, collected: false });
+                // Spawn Coin with rotating angle property
+                coinPickups.push({
+                    x: canvas.width + 45,
+                    y: topHeight + (pipeGap / 2),
+                    radius: 20,
+                    angle: 0,
+                    collected: false
+                });
             }
 
             // Pipe Collisions
@@ -747,10 +786,12 @@
                 if (p.x < -100) pipes.splice(i, 1);
             }
 
-            // Coin Pickups
+            // Coin Updates & Collisions
             for (let i = coinPickups.length - 1; i >= 0; i--) {
                 const c = coinPickups[i];
                 c.x -= 3.8;
+                // Rotate coin continuously around its Y axis
+                c.angle += 0.08;
 
                 const dist = Math.hypot(bird.x - c.x, bird.y - c.y);
                 if (dist < bird.radius + c.radius && !c.collected) {
@@ -759,7 +800,7 @@
                     sfx.coin();
                     coinPickups.splice(i, 1);
                 }
-                if (c.x < -40) coinPickups.splice(i, 1);
+                if (c.x < -50) coinPickups.splice(i, 1);
             }
         }
 
@@ -817,29 +858,21 @@
                 drawPipe(p.x, p.top + p.gap, 90, canvas.height - (p.top + p.gap) - 80);
             }
 
-            // Coins
+            // Rotating 3D Coins
             for (let c of coinPickups) {
-                ctx.fillStyle = "#facc15";
-                ctx.beginPath();
-                ctx.arc(c.x, c.y, c.radius, 0, Math.PI * 2);
-                ctx.fill();
-                ctx.strokeStyle = "#ca8a04";
-                ctx.lineWidth = 3;
-                ctx.stroke();
-
-                ctx.fillStyle = "#000";
-                ctx.font = "bold 14px 'Press Start 2P'";
-                ctx.textAlign = "center";
-                ctx.fillText("$", c.x, c.y + 5);
+                drawSpinningCoin(c);
             }
 
-            // Bird
+            // Bird Character Rendering
             ctx.save();
             ctx.translate(bird.x, bird.y);
             const rot = Math.min(Math.PI / 4, Math.max(-Math.PI / 4, (bird.velocity * 3) * Math.PI / 180));
             ctx.rotate(rot);
 
+            const activeSkinObj = skins.find(s => s.id === activeSkin);
+
             if (customSkinImg && activeSkin === 'custom') {
+                // Uploaded custom skin
                 ctx.save();
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
@@ -851,9 +884,23 @@
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
                 ctx.stroke();
+            } else if (activeSkinObj && activeSkinObj.imgLoaded) {
+                // Loaded PNG texture skin (Flappy.png, Modi.png, Cyber.png, etc.)
+                ctx.save();
+                ctx.beginPath();
+                ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
+                ctx.clip();
+                ctx.drawImage(activeSkinObj.img, -bird.radius, -bird.radius, bird.radius * 2, bird.radius * 2);
+                ctx.restore();
+                ctx.strokeStyle = "#fff";
+                ctx.lineWidth = 3;
+                ctx.beginPath();
+                ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
+                ctx.stroke();
             } else {
-                const currentSkinObj = skins.find(s => s.id === activeSkin) || skins[0];
-                ctx.fillStyle = currentSkinObj.color;
+                // Fallback vector drawing if image is not uploaded yet
+                const skinColor = activeSkinObj ? activeSkinObj.color : "#facc15";
+                ctx.fillStyle = skinColor;
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
                 ctx.fill();
@@ -886,6 +933,49 @@
             ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
             ctx.fillStyle = "#22c55e";
             ctx.fillRect(0, canvas.height - 80, canvas.width, 14);
+        }
+
+        // 3D Rotating Animated Coin Renderer
+        function drawSpinningCoin(c) {
+            const scaleX = Math.cos(c.angle);
+            const r = c.radius;
+
+            ctx.save();
+            ctx.translate(c.x, c.y);
+
+            if (coinTextureLoaded) {
+                // Draw rotating custom sprite image
+                ctx.scale(scaleX, 1);
+                ctx.drawImage(coinSpriteImg, -r, -r, r * 2, r * 2);
+            } else {
+                // 3D Vector Coin with Perspective & Rim Edge
+                ctx.scale(scaleX, 1);
+
+                // Coin Rim / Thickness
+                ctx.fillStyle = "#b45309";
+                ctx.beginPath();
+                ctx.arc(2, 0, r, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Coin Face
+                ctx.fillStyle = (scaleX > 0) ? "#facc15" : "#eab308";
+                ctx.beginPath();
+                ctx.arc(0, 0, r, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Coin Edge Border
+                ctx.strokeStyle = "#ca8a04";
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+
+                // Inner Star / Dollar Glyph
+                ctx.fillStyle = "#78350f";
+                ctx.font = "bold 13px 'Press Start 2P'";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("★", 0, 1);
+            }
+            ctx.restore();
         }
 
         function drawPipe(x, y, w, h) {
