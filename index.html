@@ -2,25 +2,25 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Play Chuchu Bird online with custom skin uploads, dynamic physics, and retro arcade sounds. Built by Tejash.">
-    <meta name="keywords" content="chuchu bird, flappy bird online, custom flappy bird, web game, tejash">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="Play Chuchu Bird with crisp HD custom skins, animated jungle and cyber city worlds, and dynamic arcade physics. Created by Tejash.">
     <meta name="author" content="Tejash">
-    <title>Chuchu Bird - Aesthetic Web Arcade Game</title>
+    <title>Chuchu Bird - HD Arcade Adventure</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
         body {
-            background: linear-gradient(135deg, #0a0e27 0%, #1e1b4b 50%, #311042 100%);
+            background: #090d16;
             color: #f8fafc;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
+            align-items: center;
         }
         header {
-            background: rgba(15, 23, 42, 0.75);
+            width: 100%;
+            background: rgba(15, 23, 42, 0.85);
             backdrop-filter: blur(12px);
-            padding: 1rem 2rem;
+            padding: 0.8rem 1.5rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -30,52 +30,85 @@
             z-index: 100;
         }
         .brand { display: flex; flex-direction: column; }
-        .logo { font-size: 1.6rem; font-weight: 800; background: linear-gradient(90deg, #f472b6, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .caption { font-size: 0.75rem; color: #94a3b8; letter-spacing: 1px; }
-        nav a { color: #cbd5e1; text-decoration: none; margin-left: 1.5rem; font-weight: 600; transition: 0.2s; }
+        .logo { font-size: 1.4rem; font-weight: 800; background: linear-gradient(90deg, #f472b6, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .caption { font-size: 0.75rem; color: #94a3b8; letter-spacing: 0.5px; }
+        nav a { color: #cbd5e1; text-decoration: none; margin-left: 1rem; font-weight: 600; font-size: 0.9rem; }
         nav a:hover, nav a.active { color: #f472b6; }
         
-        main { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1.5rem; }
-        .game-wrapper {
-            position: relative;
-            background: rgba(15, 23, 42, 0.8);
-            padding: 1.2rem;
-            border-radius: 20px;
-            box-shadow: 0 0 40px rgba(244, 114, 182, 0.25);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            text-align: center;
-        }
-        canvas {
-            background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
-            border-radius: 12px;
-            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
-            display: block;
-            margin: 0 auto;
-            max-width: 100%;
-        }
-        .controls-bar {
-            margin-top: 1rem;
+        main {
+            width: 100%;
+            max-width: 440px;
             display: flex;
-            flex-wrap: wrap;
-            gap: 0.8rem;
-            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            padding: 1rem;
+            flex: 1;
+        }
+        .game-card {
+            width: 100%;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 1rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 35px rgba(0,0,0,0.6);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
             align-items: center;
         }
-        .upload-btn, .action-btn {
-            background: linear-gradient(135deg, #ec4899, #8b5cf6);
-            color: #fff;
-            padding: 8px 18px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
+        canvas {
+            border-radius: 14px;
+            display: block;
+            width: 100%;
+            max-width: 360px;
+            height: auto;
+            aspect-ratio: 360 / 500;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+        }
+
+        /* Vertical Controls Stacked One by One */
+        .controls-stack {
+            width: 100%;
+            max-width: 360px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 14px;
+        }
+        .btn-ui {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 700;
             cursor: pointer;
             border: none;
-            transition: transform 0.2s, box-shadow 0.2s;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: transform 0.1s, opacity 0.2s;
         }
-        .upload-btn:hover, .action-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 15px rgba(236, 72, 153, 0.4); }
+        .btn-ui:active { transform: scale(0.98); }
+        .btn-start { background: linear-gradient(135deg, #10b981, #059669); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+        .select-ui {
+            width: 100%;
+            padding: 12px 14px;
+            background: #1e293b;
+            color: #f8fafc;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            outline: none;
+        }
+        .btn-upload { background: linear-gradient(135deg, #ec4899, #8b5cf6); color: #fff; }
+        .btn-reset { background: #334155; color: #cbd5e1; font-weight: 500; }
         input[type="file"] { display: none; }
-        .hud-text { font-size: 0.85rem; color: #94a3b8; margin-top: 0.5rem; }
-        footer { text-align: center; padding: 1.2rem; background: rgba(10, 14, 39, 0.9); color: #64748b; font-size: 0.85rem; border-top: 1px solid rgba(255, 255, 255, 0.05); }
+        
+        footer { width: 100%; text-align: center; padding: 1.2rem; background: #050811; color: #64748b; font-size: 0.8rem; margin-top: auto; }
     </style>
 </head>
 <body>
@@ -93,29 +126,56 @@
     </header>
 
     <main>
-        <div class="game-wrapper">
-            <canvas id="gameCanvas" width="360" height="520"></canvas>
-            
-            <div class="controls-bar">
-                <label class="upload-btn">
-                    📷 Custom Skin
-                    <input type="file" id="skinInput" accept="image/*">
+        <div class="game-card">
+            <!-- Canvas with internal HD resolution -->
+            <canvas id="gameCanvas" width="720" height="1000"></canvas>
+
+            <div class="controls-stack">
+                <!-- 1. Start Button -->
+                <button class="btn-ui btn-start" id="startBtn" onclick="handleAction()">▶ START / JUMP</button>
+                
+                <!-- 2. Level / Map Selection -->
+                <select class="select-ui" id="mapSelect" onchange="changeMap(this.value)">
+                    <option value="jungle_day">🌴 Jungle (Day Light)</option>
+                    <option value="jungle_night">🌙 Jungle (Night Glow)</option>
+                    <option value="mystic_jungle">🌿 Mystic Rainforest</option>
+                    <option value="neon_city">🏙️ Neon Cyber City</option>
+                    <option value="sunset_city">🌇 Sunset Metropolis</option>
+                </select>
+
+                <!-- 3. Skin Selection -->
+                <select class="select-ui" id="skinSelect" onchange="changeDefaultSkin(this.value)">
+                    <option value="yellow">🐥 Golden Chuchu</option>
+                    <option value="phoenix">🔥 Neon Phoenix</option>
+                    <option value="cyber">🤖 Cyber Drone</option>
+                    <option value="pinky">🌸 Pink Blossom</option>
+                </select>
+
+                <!-- 4. Custom HD Skin Upload -->
+                <label class="btn-ui btn-upload">
+                    📷 Upload Custom HD Skin
+                    <input type="file" id="skinUpload" accept="image/*">
                 </label>
-                <button class="action-btn" id="resetSkinBtn">Reset Default</button>
+
+                <!-- 5. Reset Custom Skin -->
+                <button class="btn-ui btn-reset" onclick="resetSkin()">🔄 Reset to Default Skin</button>
             </div>
-            <p class="hud-text">Tap canvas or press <b>SPACE</b> / <b>CLICK</b> to Fly & Start</p>
         </div>
     </main>
 
     <footer>
-        <p>&copy; 2026 Chuchu Bird Arcade. Developed with HTML5 Canvas & Web Audio API by Tejash.</p>
+        <p>&copy; 2026 Chuchu Bird Arcade. Developed by Tejash.</p>
     </footer>
 
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
 
-        // Audio synthesizer using Web Audio API (No external sound files required)
+        // High quality smoothing flags for HD crisp image rendering
+        ctx.imageSmoothingEnabled = true;
+        ctx.imageSmoothingQuality = "high";
+
+        // Web Audio Synthesizer
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function playTone(freq, type, duration) {
             if (audioCtx.state === 'suspended') audioCtx.resume();
@@ -123,7 +183,7 @@
             const gain = audioCtx.createGain();
             osc.type = type;
             osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.15, audioCtx.currentTime);
+            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
             gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
@@ -131,33 +191,36 @@
             osc.stop(audioCtx.currentTime + duration);
         }
         const sfx = {
-            jump: () => playTone(400, 'sine', 0.15),
-            score: () => playTone(650, 'triangle', 0.2),
-            hit: () => playTone(120, 'sawtooth', 0.3)
+            jump: () => playTone(450, 'sine', 0.12),
+            score: () => playTone(680, 'triangle', 0.2),
+            hit: () => playTone(110, 'sawtooth', 0.3)
         };
 
-        // Game Physics & State
+        // Game Configuration
         let gameState = 'START'; // START, PLAY, GAMEOVER
         let frames = 0;
         let score = 0;
         let highScore = localStorage.getItem("chuchu_high") || 0;
+        let currentMap = "jungle_day";
+        let defaultSkinType = "yellow";
 
+        // Bird settings (Enlarged radius = 34px for HD canvas scale)
         let bird = {
-            x: 60,
-            y: 220,
-            radius: 16,
+            x: 140,
+            y: 420,
+            radius: 34,
             velocity: 0,
-            gravity: 0.28,
-            jump: -5.8,
+            gravity: 0.45,
+            jump: -9.5,
             customImg: null
         };
 
         let pipes = [];
-        const pipeWidth = 52;
-        const pipeGap = 130;
+        const pipeWidth = 86;
+        const pipeGap = 260;
 
-        // Custom Skin Handlers
-        document.getElementById('skinInput').addEventListener('change', function(e) {
+        // Custom HD Image Processing
+        document.getElementById('skinUpload').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
@@ -170,21 +233,16 @@
             }
         });
 
-        document.getElementById('resetSkinBtn').addEventListener('click', () => {
+        function resetSkin() {
             bird.customImg = null;
-            document.getElementById('skinInput').value = '';
-        });
-
-        function resetGame() {
-            bird.y = 220;
-            bird.velocity = 0;
-            pipes = [];
-            score = 0;
-            frames = 0;
-            gameState = 'PLAY';
+            document.getElementById('skinUpload').value = '';
         }
 
-        function flap() {
+        function changeMap(val) { currentMap = val; }
+        function changeDefaultSkin(val) { defaultSkinType = val; bird.customImg = null; }
+
+        function handleAction() {
+            if (audioCtx.state === 'suspended') audioCtx.resume();
             if (gameState === 'START') {
                 resetGame();
                 sfx.jump();
@@ -196,10 +254,25 @@
             }
         }
 
-        window.addEventListener('keydown', (e) => { if (e.code === 'Space') flap(); });
-        canvas.addEventListener('pointerdown', flap);
+        function resetGame() {
+            bird.y = 420;
+            bird.velocity = 0;
+            pipes = [];
+            score = 0;
+            frames = 0;
+            gameState = 'PLAY';
+            document.getElementById('startBtn').innerText = "⚡ FLAP / FLY";
+        }
 
-        // Game Engine Loop
+        function triggerGameOver() {
+            gameState = 'GAMEOVER';
+            document.getElementById('startBtn').innerText = "🔄 PLAY AGAIN";
+        }
+
+        window.addEventListener('keydown', (e) => { if (e.code === 'Space') handleAction(); });
+        canvas.addEventListener('pointerdown', (e) => { e.preventDefault(); handleAction(); });
+
+        // Physics Loop
         function loop() {
             update();
             render();
@@ -214,33 +287,33 @@
             bird.y += bird.velocity;
 
             // Floor & Ceiling bounds
-            if (bird.y + bird.radius >= canvas.height - 20) {
+            if (bird.y + bird.radius >= canvas.height - 40) {
                 sfx.hit();
                 triggerGameOver();
             }
             if (bird.y - bird.radius <= 0) bird.y = bird.radius;
 
-            // Pipe spawning
-            if (frames % 100 === 0) {
-                let maxTop = canvas.height - pipeGap - 80;
-                let topH = Math.floor(Math.random() * (maxTop - 50)) + 50;
+            // Spawn Pipes
+            if (frames % 120 === 0) {
+                let maxTop = canvas.height - pipeGap - 160;
+                let topH = Math.floor(Math.random() * (maxTop - 120)) + 120;
                 pipes.push({ x: canvas.width, top: topH, passed: false });
             }
 
             for (let i = 0; i < pipes.length; i++) {
                 let p = pipes[i];
-                p.x -= 2;
+                p.x -= 3.2;
 
-                // Collision detection
-                let birdRight = bird.x + bird.radius;
-                let birdLeft = bird.x - bird.radius;
-                let birdTop = bird.y - bird.radius;
-                let birdBottom = bird.y + bird.radius;
+                // Precision Hitbox
+                let bR = bird.x + bird.radius - 4;
+                let bL = bird.x - bird.radius + 4;
+                let bT = bird.y - bird.radius + 4;
+                let bB = bird.y + bird.radius - 4;
 
                 let bottomPipeY = p.top + pipeGap;
 
-                if (birdRight > p.x && birdLeft < p.x + pipeWidth) {
-                    if (birdTop < p.top || birdBottom > bottomPipeY) {
+                if (bR > p.x && bL < p.x + pipeWidth) {
+                    if (bT < p.top || bB > bottomPipeY) {
                         sfx.hit();
                         triggerGameOver();
                     }
@@ -260,89 +333,165 @@
             pipes = pipes.filter(p => p.x + pipeWidth > 0);
         }
 
-        function triggerGameOver() {
-            gameState = 'GAMEOVER';
+        // Map Themes & Rendering
+        function drawBackground() {
+            if (currentMap === "jungle_day") {
+                let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                grad.addColorStop(0, "#38bdf8");
+                grad.addColorStop(0.6, "#a7f3d0");
+                grad.addColorStop(1, "#15803d");
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Distant jungle hills
+                ctx.fillStyle = "rgba(22, 101, 52, 0.4)";
+                ctx.beginPath();
+                ctx.arc(150, 900, 300, 0, Math.PI * 2);
+                ctx.arc(550, 900, 350, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (currentMap === "jungle_night") {
+                let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                grad.addColorStop(0, "#022c22");
+                grad.addColorStop(0.6, "#064e3b");
+                grad.addColorStop(1, "#020617");
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Moon
+                ctx.fillStyle = "#fef08a";
+                ctx.beginPath();
+                ctx.arc(600, 140, 45, 0, Math.PI * 2);
+                ctx.fill();
+            } else if (currentMap === "mystic_jungle") {
+                let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                grad.addColorStop(0, "#1e1b4b");
+                grad.addColorStop(0.5, "#4c1d95");
+                grad.addColorStop(1, "#065f46");
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            } else if (currentMap === "neon_city") {
+                let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                grad.addColorStop(0, "#0f172a");
+                grad.addColorStop(0.7, "#3b0764");
+                grad.addColorStop(1, "#1e1b4b");
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            } else if (currentMap === "sunset_city") {
+                let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                grad.addColorStop(0, "#f97316");
+                grad.addColorStop(0.5, "#ec4899");
+                grad.addColorStop(1, "#1e1b4b");
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+
+            // Ground Bar
+            ctx.fillStyle = "#111827";
+            ctx.fillRect(0, canvas.height - 40, canvas.width, 40);
+        }
+
+        function drawPipes() {
+            for (let p of pipes) {
+                let grad = ctx.createLinearGradient(p.x, 0, p.x + pipeWidth, 0);
+                if (currentMap.includes("jungle")) {
+                    grad.addColorStop(0, "#166534");
+                    grad.addColorStop(0.5, "#22c55e");
+                    grad.addColorStop(1, "#14532d");
+                } else {
+                    grad.addColorStop(0, "#0284c7");
+                    grad.addColorStop(0.5, "#38bdf8");
+                    grad.addColorStop(1, "#0369a1");
+                }
+
+                ctx.fillStyle = grad;
+                // Top Pipe
+                ctx.fillRect(p.x, 0, pipeWidth, p.top);
+                ctx.fillRect(p.x - 6, p.top - 24, pipeWidth + 12, 24);
+                // Bottom Pipe
+                let bY = p.top + pipeGap;
+                ctx.fillRect(p.x, bY, pipeWidth, canvas.height - bY - 40);
+                ctx.fillRect(p.x - 6, bY, pipeWidth + 12, 24);
+            }
         }
 
         function render() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBackground();
+            drawPipes();
 
-            // Aesthetic Stars / Background grid
-            ctx.fillStyle = "rgba(244, 114, 182, 0.1)";
-            ctx.fillRect(0, canvas.height - 20, canvas.width, 20);
-
-            // Draw Pipes
-            for (let p of pipes) {
-                let grad = ctx.createLinearGradient(p.x, 0, p.x + pipeWidth, 0);
-                grad.addColorStop(0, "#06b6d4");
-                grad.addColorStop(1, "#3b82f6");
-
-                ctx.fillStyle = grad;
-                ctx.shadowColor = "#06b6d4";
-                ctx.shadowBlur = 10;
-                // Top pipe
-                ctx.fillRect(p.x, 0, pipeWidth, p.top);
-                // Bottom pipe
-                ctx.fillRect(p.x, p.top + pipeGap, pipeWidth, canvas.height - (p.top + pipeGap) - 20);
-                ctx.shadowBlur = 0;
-            }
-
-            // Draw Bird / Skin
+            // Render Bird
             ctx.save();
             ctx.translate(bird.x, bird.y);
-            ctx.rotate(Math.min(Math.PI / 4, Math.max(-Math.PI / 4, (bird.velocity * 4) * Math.PI / 180)));
+            let angle = Math.min(Math.PI / 4, Math.max(-Math.PI / 4, (bird.velocity * 3.5) * Math.PI / 180));
+            ctx.rotate(angle);
 
             if (bird.customImg) {
+                // High Quality Circular Cropped Image Render
+                ctx.save();
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
                 ctx.closePath();
                 ctx.clip();
                 ctx.drawImage(bird.customImg, -bird.radius, -bird.radius, bird.radius * 2, bird.radius * 2);
+                ctx.restore();
+
+                // Clean glowing boundary ring
+                ctx.strokeStyle = "#38bdf8";
+                ctx.lineWidth = 3.5;
+                ctx.beginPath();
+                ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
+                ctx.stroke();
             } else {
-                // Default Chuchu Bird (Aesthetic Neon Chick)
-                ctx.fillStyle = "#fbbf24";
+                // Built-in Aesthetic Skins
+                let bodyColor = "#fbbf24";
+                if (defaultSkinType === "phoenix") bodyColor = "#ef4444";
+                if (defaultSkinType === "cyber") bodyColor = "#06b6d4";
+                if (defaultSkinType === "pinky") bodyColor = "#f472b6";
+
+                ctx.fillStyle = bodyColor;
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Eye
+                // Big Eye
+                ctx.fillStyle = "#ffffff";
+                ctx.beginPath();
+                ctx.arc(12, -8, 8, 0, Math.PI * 2);
+                ctx.fill();
                 ctx.fillStyle = "#0f172a";
                 ctx.beginPath();
-                ctx.arc(6, -4, 3.5, 0, Math.PI * 2);
+                ctx.arc(14, -8, 4, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Beak
                 ctx.fillStyle = "#f97316";
                 ctx.beginPath();
-                ctx.moveTo(10, 0);
-                ctx.lineTo(20, 4);
-                ctx.lineTo(10, 8);
+                ctx.moveTo(18, 0);
+                ctx.lineTo(36, 6);
+                ctx.lineTo(18, 14);
                 ctx.fill();
             }
             ctx.restore();
 
-            // UI Overlays
+            // Overlay HUD
             ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 24px 'Segoe UI', sans-serif";
+            ctx.font = "bold 44px 'Segoe UI', sans-serif";
             ctx.textAlign = "center";
 
             if (gameState === 'START') {
-                ctx.fillText("🐦 CHUCHU BIRD", canvas.width / 2, 170);
-                ctx.font = "14px 'Segoe UI'";
-                ctx.fillStyle = "#94a3b8";
-                ctx.fillText("TAP OR PRESS SPACE TO FLY", canvas.width / 2, 210);
+                ctx.fillText("🐦 CHUCHU BIRD", canvas.width / 2, 340);
+                ctx.font = "24px 'Segoe UI'";
+                ctx.fillStyle = "#cbd5e1";
+                ctx.fillText("TAP OR PRESS START TO FLY", canvas.width / 2, 400);
             } else if (gameState === 'PLAY') {
-                ctx.fillText(score, canvas.width / 2, 50);
+                ctx.fillText(score, canvas.width / 2, 90);
             } else if (gameState === 'GAMEOVER') {
                 ctx.fillStyle = "#f43f5e";
-                ctx.fillText("GAME OVER", canvas.width / 2, 180);
+                ctx.fillText("GAME OVER", canvas.width / 2, 340);
                 ctx.fillStyle = "#f8fafc";
-                ctx.font = "18px 'Segoe UI'";
-                ctx.fillText("Score: " + score, canvas.width / 2, 220);
-                ctx.fillText("Best: " + highScore, canvas.width / 2, 250);
-                ctx.font = "13px 'Segoe UI'";
-                ctx.fillStyle = "#94a3b8";
-                ctx.fillText("TAP TO RETRY", canvas.width / 2, 290);
+                ctx.font = "30px 'Segoe UI'";
+                ctx.fillText("Score: " + score, canvas.width / 2, 400);
+                ctx.fillText("Best Score: " + highScore, canvas.width / 2, 450);
             }
         }
 
