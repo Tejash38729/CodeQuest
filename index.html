@@ -4,52 +4,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     
-    <title>Chuchu Bird - Play Free Online Flappy Crow Arcade Game | By Tejash</title>
-    <meta name="title" content="Chuchu Bird - Play Free Online Flappy Crow Arcade Game | By Tejash">
-    <meta name="description" content="Play Chuchu Bird online for free! Fly as ChuChu the Crow through 5 exciting maps (City, Jungle, Neon Cyber, Sunset), unlock custom skins, and beat high scores. Created by Tejash.">
-    <meta name="keywords" content="Chuchu Bird, Flappy Crow, Flappy Bird Online, HTML5 Bird Game, Browser Arcade Game, Play Free Games Online, Chuchu Bird Tejash, JavaScript Game">
+    <!-- Primary Page Titles & SEO Meta (Strict Character Limits Applied) -->
+    <title>Chuchu Bird - Free Online Flappy Game</title>
+    <meta name="title" content="Chuchu Bird - Free Online Flappy Game">
+    <meta name="description" content="Play Chuchu Bird free online! Fly through 5 maps, collect 3D coins, and unlock custom skins in this fast arcade game.">
+    <meta name="keywords" content="Chuchu Bird, Flappy Crow, Flappy Bird Online, HTML5 Bird Game, Browser Arcade Game, Play Free Games Online">
     <meta name="author" content="Tejash">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="language" content="English">
     <meta name="revisit-after" content="7 days">
     <link rel="canonical" href="https://tejash38729.github.io/CodeQuest/">
 
+    <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="fQRtcXM4TOpwxH87usF68RR5Jctr35n5ju-CIDzYyaY" />
 
+    <!-- Open Graph Meta Tags (Optimized for WhatsApp, Facebook, LinkedIn, Discord, Telegram) -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Chuchu Bird">
     <meta property="og:url" content="https://tejash38729.github.io/CodeQuest/">
-    <meta property="og:title" content="Chuchu Bird - Play Free Online Flappy Crow Arcade Game | By Tejash">
-    <meta property="og:description" content="Play Chuchu Bird online for free! Fly as ChuChu the Crow through 5 exciting maps, unlock custom skins, and beat high scores. Created by Tejash.">
+    <meta property="og:title" content="Chuchu Bird - Online Flappy Arcade">
+    <meta property="og:description" content="Fly through 5 maps, collect coins, and unlock skins in Chuchu Bird! Free browser arcade game.">
     <meta property="og:image" content="https://tejash38729.github.io/CodeQuest/og-banner.png">
     <meta property="og:image:secure_url" content="https://tejash38729.github.io/CodeQuest/og-banner.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Chuchu Bird - Online Flappy Crow Arcade Game by Tejash">
+    <meta property="og:image:alt" content="Chuchu Bird Online Game Banner">
     <meta property="og:locale" content="en_US">
 
+    <!-- Twitter / X Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://tejash38729.github.io/CodeQuest/">
-    <meta name="twitter:title" content="Chuchu Bird - Play Free Online Flappy Crow Arcade Game | By Tejash">
-    <meta name="twitter:description" content="Play Chuchu Bird online for free! Fly through 5 worlds, collect 3D coins, and unlock custom skins.">
+    <meta name="twitter:title" content="Chuchu Bird - Online Flappy Arcade">
+    <meta name="twitter:description" content="Fly through 5 maps, collect coins, and unlock skins in Chuchu Bird! Free browser arcade game.">
     <meta name="twitter:image" content="https://tejash38729.github.io/CodeQuest/og-banner.png">
-    <meta name="twitter:image:alt" content="Chuchu Bird Game Artwork Banner">
+    <meta name="twitter:image:alt" content="Chuchu Bird Online Game Banner">
 
+    <!-- Mobile & PWA Configuration -->
     <meta property="al:web:url" content="https://tejash38729.github.io/CodeQuest/">
-
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Chuchu Bird">
     <link rel="apple-touch-icon" href="https://tejash38729.github.io/CodeQuest/ChuChu.png">
-
     <meta name="theme-color" content="#0b0f19">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="application-name" content="Chuchu Bird">
 
+    <!-- Favicon -->
     <link rel="icon" type="image/png" href="ChuChu.png">
     <link rel="shortcut icon" href="ChuChu.png" type="image/png">
 
+    <!-- Google Structured Data Schema (JSON-LD) -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -369,11 +374,13 @@
 </head>
 <body>
 
+    <!-- Audio Element for MP3/WAV playback -->
     <audio id="bgMusic" loop preload="auto"></audio>
 
     <div id="game-container">
         <canvas id="gameCanvas" width="720" height="1280"></canvas>
 
+        <!-- TOP HUD -->
         <div id="in-game-hud" class="hidden">
             <div class="hud-coin-box">🪙 <span id="hudCoins">0</span></div>
             
@@ -390,6 +397,7 @@
             <button class="hamburger-btn" onclick="openHamburgerMenu()">☰</button>
         </div>
 
+        <!-- 1. MAIN MENU -->
         <div id="mainMenu" class="overlay-screen">
             <h1 class="retro-title">CHUCHU BIRD</h1>
             <p class="creator-caption">MADE BY TEJASH</p>
@@ -403,6 +411,7 @@
             </div>
         </div>
 
+        <!-- 2. PAUSE MENU -->
         <div id="hamburgerModal" class="overlay-screen hidden">
             <div class="modal-box" style="max-width: 340px;">
                 <h2 class="modal-title">PAUSED</h2>
@@ -414,6 +423,7 @@
             </div>
         </div>
 
+        <!-- 3. MAP SELECTION -->
         <div id="levelModal" class="overlay-screen hidden">
             <div class="modal-box">
                 <h2 class="modal-title">SELECT MAP</h2>
@@ -422,6 +432,7 @@
             </div>
         </div>
 
+        <!-- 4. SKINS SHOP -->
         <div id="skinModal" class="overlay-screen hidden">
             <div class="modal-box">
                 <h2 class="modal-title">BIRD SKINS</h2>
@@ -444,6 +455,7 @@
             </div>
         </div>
 
+        <!-- 5. IDEAS MODAL -->
         <div id="ideasModal" class="overlay-screen hidden">
             <div class="modal-box">
                 <h2 class="modal-title">SEND YOUR IDEAS</h2>
@@ -455,6 +467,7 @@
             </div>
         </div>
 
+        <!-- 6. ABOUT MODAL -->
         <div id="aboutModal" class="overlay-screen hidden">
             <div class="modal-box">
                 <h2 class="modal-title">ABOUT GAME</h2>
@@ -467,6 +480,7 @@
             </div>
         </div>
 
+        <!-- 7. GAME OVER MODAL -->
         <div id="gameOverModal" class="overlay-screen hidden">
             <div class="hcr-dialog" id="gameOverCard">
                 <div id="gameOverRibbon" class="hcr-ribbon ribbon-lost">CRASHED!</div>
@@ -484,6 +498,7 @@
         </div>
     </div>
 
+    <!-- SEO Content Section for Search Engines -->
     <section id="game-info" style="max-width: 800px; margin: 40px auto; padding: 20px; color: #cbd5e1; font-family: sans-serif; line-height: 1.6;">
         <h2 style="color: #facc15; font-size: 1.5rem; margin-bottom: 10px;">About Chuchu Bird Online Game</h2>
         <p>
@@ -1051,6 +1066,7 @@
                 ctx.lineWidth = 4;
                 ctx.stroke();
 
+                // Eye
                 ctx.fillStyle = "#facc15";
                 ctx.beginPath();
                 ctx.arc(14, -8, 9, 0, Math.PI * 2);
@@ -1060,6 +1076,7 @@
                 ctx.arc(16, -8, 4, 0, Math.PI * 2);
                 ctx.fill();
 
+                // Crow Beak
                 ctx.fillStyle = "#020617";
                 ctx.beginPath();
                 ctx.moveTo(20, -2);
@@ -1132,16 +1149,6 @@
                 let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
                 grad.addColorStop(0, lvl.color);
                 grad.addColorStop(1, "#0f172a");
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-            }
-        }
-
-        loop();
-    </script>
-</body>
-</html>
-a");
                 ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
