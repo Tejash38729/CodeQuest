@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-Content-Type-Options" content="nosniff">
     <meta http-equiv="Referrer-Policy" content="strict-origin-when-cross-origin">
     
-    <!-- Primary Page Titles & SEO Meta (120-160 Char Description) -->
+    <!-- Primary Page Titles & SEO Meta (120-160 Char Target) -->
     <title>Chuchu Bird - Free Online Flappy Game</title>
     <meta name="title" content="Chuchu Bird - Free Online Flappy Game">
-    <meta name="description" content="Play Chuchu Bird free in your browser! Guide ChuChu the Crow across five dynamic stages, collect shiny coins, and unlock cool retro bird skins.">
-    <meta name="keywords" content="Chuchu Bird, flappy crow, browser arcade, html5 bird runner, retro game">
+    <meta name="description" content="Play Chuchu Bird free online! Navigate ChuChu the crow across five dynamic environments, gather rotating coins, and unlock custom character skins.">
+    <meta name="keywords" content="Chuchu Bird, arcade runner, flappy crow, browser game, retro canvas">
     <meta name="author" content="Tejash">
     <meta name="robots" content="index, follow">
     <meta name="language" content="English">
@@ -19,27 +20,27 @@
     <!-- Google Search Console Verification -->
     <meta name="google-site-verification" content="fQRtcXM4TOpwxH87usF68RR5Jctr35n5ju-CIDzYyaY" />
 
-    <!-- Open Graph Meta Tags -->
+    <!-- Open Graph Meta Tags (Social Platforms) -->
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Chuchu Bird">
     <meta property="og:url" content="https://tejash38729.github.io/CodeQuest/">
     <meta property="og:title" content="Chuchu Bird - Online Flappy Arcade">
-    <meta property="og:description" content="Guide ChuChu the Crow across five unique worlds, collect coins, and unlock retro skins in your web browser!">
+    <meta property="og:description" content="Fly across five distinct stages, collect shiny coins, and unlock retro bird skins in this web arcade game.">
     <meta property="og:image" content="https://tejash38729.github.io/CodeQuest/og-banner.png">
     <meta property="og:image:secure_url" content="https://tejash38729.github.io/CodeQuest/og-banner.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Chuchu Bird Online Game Banner">
+    <meta property="og:image:alt" content="Chuchu Bird Official Gameplay Banner">
     <meta property="og:locale" content="en_US">
 
     <!-- Twitter / X Meta Tags -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://tejash38729.github.io/CodeQuest/">
     <meta name="twitter:title" content="Chuchu Bird - Online Flappy Arcade">
-    <meta name="twitter:description" content="Guide ChuChu the Crow across five unique worlds, collect coins, and unlock retro skins in your web browser!">
+    <meta name="twitter:description" content="Fly across five distinct stages, collect shiny coins, and unlock retro bird skins in this web arcade game.">
     <meta name="twitter:image" content="https://tejash38729.github.io/CodeQuest/og-banner.png">
-    <meta name="twitter:image:alt" content="Chuchu Bird Online Game Banner">
+    <meta name="twitter:image:alt" content="Chuchu Bird Official Gameplay Banner">
 
     <!-- Mobile & PWA Configuration -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -54,7 +55,7 @@
     <link rel="icon" type="image/png" href="ChuChu.png">
     <link rel="shortcut icon" href="ChuChu.png" type="image/png">
 
-    <!-- Structured Data Schema (JSON-LD) with Person, Social & Game Definition -->
+    <!-- Structured Data Schema (JSON-LD) with Game, Person & Social Profile -->
     <script type="application/ld+json">
     [
       {
@@ -93,8 +94,8 @@
         "sameAs": [
           "https://instagram.com/Tejash38729"
         ],
-        "jobTitle": "Game Developer",
-        "knowsAbout": ["HTML5 Canvas", "JavaScript Game Engine", "Web Audio API"]
+        "jobTitle": "Web Game Developer",
+        "knowsAbout": ["HTML5 Canvas", "JavaScript", "Web Audio API"]
       }
     ]
     </script>
@@ -400,35 +401,34 @@
             font-family: inherit;
         }
 
-        /* SEO & E-E-A-T Content Layout */
         #main-content {
-            max-width: 860px;
-            margin: 30px auto;
+            max-width: 880px;
+            margin: 40px auto;
             padding: 20px 24px;
             color: #cbd5e1;
-            line-height: 1.7;
+            line-height: 1.75;
         }
-        #main-content h2 { color: #facc15; font-size: 1.4rem; margin: 24px 0 10px 0; }
-        #main-content h3 { color: #38bdf8; font-size: 1.1rem; margin: 16px 0 8px 0; }
-        #main-content p, #main-content li { font-size: 0.95rem; margin-bottom: 10px; }
-        #main-content ul { padding-left: 20px; }
+        #main-content h2 { color: #facc15; font-size: 1.45rem; margin: 28px 0 12px 0; border-bottom: 2px solid #334155; padding-bottom: 6px; }
+        #main-content h3 { color: #38bdf8; font-size: 1.15rem; margin: 18px 0 8px 0; }
+        #main-content p, #main-content li { font-size: 0.95rem; margin-bottom: 12px; }
+        #main-content ul { padding-left: 24px; }
         
         .social-link-badge {
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            background: #833ab4;
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
             color: #fff;
-            padding: 8px 16px;
+            padding: 10px 18px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 600;
-            margin-top: 8px;
+            margin-top: 10px;
         }
 
         footer {
             border-top: 1px solid #1e293b;
-            padding: 25px 20px;
+            padding: 30px 20px;
             text-align: center;
             font-size: 0.85rem;
             color: #64748b;
@@ -438,16 +438,16 @@
 </head>
 <body>
 
-    <a href="#main-content" class="skip-link">Skip to Game Information</a>
+    <a href="#main-content" class="skip-link">Skip to game instructions</a>
 
     <audio id="bgMusic" loop preload="none"></audio>
 
-    <main id="game-container" role="region" aria-label="Chuchu Bird Game Canvas Area">
-        <canvas id="gameCanvas" width="720" height="1280" aria-label="Interactive Game Screen"></canvas>
+    <main id="game-container" role="region" aria-label="Game Canvas Interactive Display">
+        <canvas id="gameCanvas" width="720" height="1280" aria-label="Main Gameplay View"></canvas>
 
         <!-- TOP HUD -->
-        <div id="in-game-hud" class="hidden" role="toolbar" aria-label="Game Status Bar">
-            <div class="hud-coin-box" aria-label="Collected Coins">🪙 <span id="hudCoins">0</span></div>
+        <div id="in-game-hud" class="hidden" role="toolbar" aria-label="In-Game HUD Status">
+            <div class="hud-coin-box" aria-label="Collected Coins Balance">🪙 <span id="hudCoins">0</span></div>
             
             <div class="progress-container">
                 <div class="progress-header">
@@ -459,7 +459,7 @@
                 </div>
             </div>
 
-            <button class="hamburger-btn" aria-label="Pause Gameplay Menu" onclick="openHamburgerMenu()">☰</button>
+            <button class="hamburger-btn" aria-label="Pause the current game" onclick="openHamburgerMenu()">☰</button>
         </div>
 
         <!-- 1. MAIN MENU -->
@@ -467,7 +467,7 @@
             <h1 class="retro-title">CHUCHU BIRD</h1>
             <p class="creator-caption">BY TEJASH</p>
             
-            <nav class="menu-btn-group" aria-label="Main Menu Navigation">
+            <nav class="menu-btn-group" aria-label="Primary Game Navigation">
                 <button class="pixel-btn btn-start" onclick="startGame()">▶ PLAY GAME</button>
                 <button class="pixel-btn btn-levels" onclick="showScreen('levelModal')">🗺️ SELECT LEVEL</button>
                 <button class="pixel-btn btn-shop" onclick="showScreen('skinModal')">👕 SKINS & SHOP</button>
@@ -520,7 +520,7 @@
             </div>
         </section>
 
-        <!-- 5. IDEAS MODAL (Direct to Instagram) -->
+        <!-- 5. IDEAS MODAL (Instagram Redirection) -->
         <section id="ideasModal" class="overlay-screen hidden" aria-modal="true" role="dialog">
             <div class="modal-box">
                 <h2 class="modal-title">SEND YOUR IDEAS</h2>
@@ -544,7 +544,7 @@
                 <p style="color:#cbd5e1; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; text-align: left;">
                     <b>Chuchu Bird</b> is an arcade runner built with HTML5 Canvas, real-time procedural audio, and customizable characters.<br><br>
                     <b>Author:</b> Tejash (<a href="https://instagram.com/Tejash38729" target="_blank" rel="noopener noreferrer" style="color:#38bdf8;">@Tejash38729</a>)<br>
-                    <b>Version:</b> 2.0 (August 2026)
+                    <b>Last Updated:</b> August 22, 2026
                 </p>
                 <button class="pixel-btn btn-secondary" onclick="showScreen('mainMenu')">BACK</button>
             </div>
@@ -568,33 +568,55 @@
         </section>
     </main>
 
-    <!-- Comprehensive Crawlable Content & E-E-A-T Section -->
+    <!-- Detailed Crawlable Editorial Content & E-E-A-T Documentation -->
     <article id="main-content">
-        <h2>Gameplay Overview & Features</h2>
+        <h2>Gameplay Mechanics & Overview</h2>
         <p>
-            Welcome to <strong>Chuchu Bird</strong>, an endless obstacle runner built natively for modern web and mobile browsers. Players control ChuChu the crow as it maneuvers through procedural obstacle courses across diverse environments including City Skies, Lush Jungle, Cyber Neon, and Sunset Horizons.
+            <strong>Chuchu Bird</strong> is a browser-based arcade title crafted using standard web technologies without external dependencies. The core objective requires players to navigate through challenging obstacle gaps while maintaining altitude balance through continuous jumps.
         </p>
 
-        <h3>Controls and Navigation</h3>
+        <h3>Controls and Usability</h3>
         <ul>
-            <li><strong>Keyboard Controls:</strong> Tap the <code>Spacebar</code> or click the left mouse button to flap and gain upward momentum.</li>
-            <li><strong>Touch Screens:</strong> Tap anywhere on your smartphone or tablet display to jump over obstacles.</li>
-            <li><strong>Objective:</strong> Survive the stage distances, collect 3D rotating gold tokens, and unlock customized bird skins.</li>
+            <li><strong>Desktop Navigation:</strong> Press the <code>Spacebar</code> or click the primary mouse button to flap wings and gain vertical lift.</li>
+            <li><strong>Touch Devices:</strong> Tap anywhere on your smartphone or tablet touch display to initiate flight impulses.</li>
+            <li><strong>Objective Criteria:</strong> Achieve stage distance targets (ranging from 50m to 250m) while collecting rotating three-dimensional tokens to unlock character cosmetics.</li>
         </ul>
 
-        <h3>Developer Background & Creator Profile</h3>
+        <h3>Stage Progression & Dynamic Environments</h3>
         <p>
-            Chuchu Bird is developed and maintained by <strong>Tejash</strong>. Built as a lightweight browser project, the game demonstrates hardware-accelerated Canvas rendering and responsive touch handlers. Follow official project updates and feature previews directly on Instagram:
+            The game introduces progressive difficulty across five distinct environments:
+        </p>
+        <ul>
+            <li><strong>Level 1 - City Skies (50m Goal):</strong> Introductory skyline route designed to familiarize players with flight momentum.</li>
+            <li><strong>Level 2 - Jungle Day (100m Goal):</strong> Dense canopy background with narrower pipe spacing. Clearing this level unlocks custom texture uploads.</li>
+            <li><strong>Level 3 - Jungle Night (150m Goal):</strong> Low-visibility twilight atmosphere requiring heightened timing accuracy.</li>
+            <li><strong>Level 4 - Neon Cyber (200m Goal):</strong> High-speed synthwave aesthetic featuring vibrant neon pillars.</li>
+            <li><strong>Level 5 - Sunset Horizon (250m Goal):</strong> The ultimate endurance stage testing sustained reflexes.</li>
+        </ul>
+
+        <h3>Interactive Audio Synthesis Engine</h3>
+        <p>
+            Unlike static audio players, Chuchu Bird incorporates a dual-mode sound engine. If external audio tracks fail to load, the engine falls back to an integrated Web Audio API synthesizer that produces rhythmic frequency sequences in real-time, eliminating broken audio experiences.
+        </p>
+
+        <h3>Developer Background & Social Profiles</h3>
+        <p>
+            Chuchu Bird is designed, coded, and maintained by <strong>Tejash</strong>. Built as a demonstration of responsive Canvas rendering and lightweight state architecture, all ongoing feature announcements and project milestones are published on Instagram:
         </p>
         <p>
             <a href="https://instagram.com/Tejash38729" target="_blank" rel="noopener noreferrer" class="social-link-badge">
-                📸 Follow @Tejash38729 on Instagram
+                📸 Connect with @Tejash38729 on Instagram
             </a>
         </p>
 
-        <h3>Privacy Policy & Terms of Use</h3>
+        <h3>Privacy Policy & Client-Side Storage</h3>
         <p>
-            Chuchu Bird operates entirely on client-side technology. All game progress, wallet balances, and unlocked skins are saved securely in your browser's local storage. No personally identifiable tracking data or cookies are transmitted to third-party ad networks.
+            Chuchu Bird values user privacy. The application operates entirely inside the local browser client. High scores, level progression, and wallet balances are stored directly in your device's <code>localStorage</code> database. No tracking pixels, remote telemetry, or personal information are transmitted to third-party servers.
+        </p>
+
+        <h3>Terms of Service & Licensing</h3>
+        <p>
+            Chuchu Bird is provided free of charge for casual gameplay and educational exploration. All original graphic sprites, procedural audio code, and user interface styling are developed by Tejash.
         </p>
     </article>
 
@@ -602,7 +624,7 @@
         <p>© 2026 Chuchu Bird Arcade. Developed by Tejash.</p>
         <p style="margin-top: 8px;">
             <a href="https://instagram.com/Tejash38729" target="_blank" rel="noopener noreferrer">Instagram Profile</a> |
-            <a href="https://tejash38729.github.io/CodeQuest/">Official Home</a> |
+            <a href="https://tejash38729.github.io/CodeQuest/">Game Home</a> |
             <a href="https://github.com/tejash38729/CodeQuest" target="_blank" rel="noopener noreferrer">GitHub Repository</a>
         </p>
     </footer>
@@ -652,7 +674,6 @@
             btn.addEventListener('pointerdown', () => sfx.button());
         });
 
-        // 3D Animated Coin Texture
         const coinSpriteImg = new Image();
         coinSpriteImg.src = "coin.png";
         let coinTextureLoaded = false;
@@ -906,7 +927,6 @@
             renderSkinShop();
         }
 
-        // Direct Instagram Redirection
         function sendIdeaInstagram() {
             window.open("https://instagram.com/Tejash38729", "_blank", "noopener,noreferrer");
         }
