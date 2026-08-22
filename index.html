@@ -3,498 +3,890 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Play Chuchu Bird with crisp HD custom skins, animated jungle and cyber city worlds, and dynamic arcade physics. Created by Tejash.">
+    <meta name="description" content="Chuchu Bird - Fullscreen arcade flappy game with level progress, coins, skins shop, custom skin unlocks, and custom sound effects. Created by Tejash.">
     <meta name="author" content="Tejash">
-    <title>Chuchu Bird - HD Arcade Adventure</title>
+    <title>Chuchu Bird - Made By Tejash</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; -webkit-tap-highlight-color: transparent; }
-        body {
-            background: #090d16;
-            color: #f8fafc;
-            min-height: 100vh;
+        @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;600;800&display=swap');
+
+        * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-user-select: none; }
+        
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0f172a;
+            font-family: 'Outfit', sans-serif;
+            color: #fff;
+        }
+
+        #game-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+        }
+
+        canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            image-rendering: pixelated;
+        }
+
+        /* Fullscreen Overlay Menus */
+        .overlay-screen {
+            position: absolute;
+            inset: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            background: rgba(10, 15, 30, 0.75);
+            backdrop-filter: blur(8px);
+            z-index: 50;
+            padding: 20px;
+            transition: all 0.3s ease;
         }
-        header {
+
+        .hidden { display: none !important; }
+
+        /* Retro Arcade Typography */
+        .retro-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            color: #facc15;
+            text-shadow: 4px 4px 0 #000, -3px -3px 0 #ef4444, 3px -3px 0 #3b82f6;
+            margin-bottom: 6px;
+            text-align: center;
+            letter-spacing: 2px;
+            animation: bounceTitle 2s infinite alternate ease-in-out;
+        }
+
+        .creator-caption {
+            font-family: 'Press Start 2P', cursive;
+            font-size: clamp(0.65rem, 1.8vw, 0.9rem);
+            color: #38bdf8;
+            margin-bottom: 25px;
+            letter-spacing: 1px;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        @keyframes bounceTitle {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-8px); }
+        }
+
+        /* Menu Buttons */
+        .menu-btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
             width: 100%;
-            background: rgba(15, 23, 42, 0.85);
-            backdrop-filter: blur(12px);
-            padding: 0.8rem 1.5rem;
+            max-width: 320px;
+        }
+
+        .pixel-btn {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.85rem;
+            padding: 14px 18px;
+            border: 4px solid #000;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+            transition: transform 0.1s, filter 0.2s;
+            box-shadow: inset 0 -4px 0 rgba(0,0,0,0.35), 0 4px 0 #000;
+        }
+        .pixel-btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #000; }
+        
+        .btn-start { background: #22c55e; color: #fff; }
+        .btn-shop { background: #f59e0b; color: #fff; }
+        .btn-levels { background: #3b82f6; color: #fff; }
+        .btn-ideas { background: #25d366; color: #022c22; }
+        .btn-about { background: #a855f7; color: #fff; }
+        .btn-secondary { background: #475569; color: #fff; }
+
+        /* Modal Dialog Box */
+        .modal-box {
+            background: #1e293b;
+            border: 4px solid #38bdf8;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.8), inset 0 0 20px rgba(56, 189, 248, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            width: 100%;
+            max-width: 480px;
+            max-height: 85vh;
+            overflow-y: auto;
+            text-align: center;
+        }
+        .modal-title {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.2rem;
+            color: #facc15;
+            margin-bottom: 18px;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        /* Top HUD / In-Game Controls */
+        #in-game-hud {
+            position: absolute;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            padding: 0 20px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid rgba(244, 114, 182, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+            z-index: 40;
+            pointer-events: none;
         }
-        .brand { display: flex; flex-direction: column; }
-        .logo { font-size: 1.4rem; font-weight: 800; background: linear-gradient(90deg, #f472b6, #38bdf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .caption { font-size: 0.75rem; color: #94a3b8; letter-spacing: 0.5px; }
-        nav a { color: #cbd5e1; text-decoration: none; margin-left: 1rem; font-weight: 600; font-size: 0.9rem; }
-        nav a:hover, nav a.active { color: #f472b6; }
-        
-        main {
-            width: 100%;
-            max-width: 440px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 1rem;
+        #in-game-hud * { pointer-events: auto; }
+
+        .progress-container {
             flex: 1;
-        }
-        .game-card {
-            width: 100%;
-            background: rgba(15, 23, 42, 0.9);
-            padding: 1rem;
-            border-radius: 20px;
-            box-shadow: 0 10px 35px rgba(0,0,0,0.6);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 380px;
+            margin: 0 15px;
+            background: rgba(0,0,0,0.7);
+            border: 3px solid #fff;
+            border-radius: 12px;
+            padding: 4px;
             display: flex;
             flex-direction: column;
-            align-items: center;
+            gap: 2px;
         }
-        canvas {
-            border-radius: 14px;
-            display: block;
-            width: 100%;
-            max-width: 360px;
-            height: auto;
-            aspect-ratio: 360 / 500;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.6rem;
+            color: #facc15;
+            padding: 2px 6px;
+        }
+        .progress-bar-fill {
+            height: 14px;
+            width: 0%;
+            background: linear-gradient(90deg, #ef4444, #f59e0b, #22c55e);
+            border-radius: 6px;
+            transition: width 0.1s linear;
         }
 
-        /* Vertical Controls Stacked One by One */
-        .controls-stack {
-            width: 100%;
-            max-width: 360px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            margin-top: 14px;
-        }
-        .btn-ui {
-            width: 100%;
-            padding: 12px 16px;
-            border-radius: 12px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            cursor: pointer;
-            border: none;
-            text-align: center;
+        .hud-stat-box {
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.75rem;
+            background: rgba(0,0,0,0.75);
+            border: 2px solid #facc15;
+            padding: 8px 12px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: transform 0.1s, opacity 0.2s;
+            gap: 6px;
         }
-        .btn-ui:active { transform: scale(0.98); }
-        .btn-start { background: linear-gradient(135deg, #10b981, #059669); color: #fff; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-        .select-ui {
+
+        .hud-buttons { display: flex; gap: 8px; }
+        .hud-icon-btn {
+            background: rgba(15, 23, 42, 0.85);
+            border: 2px solid #fff;
+            color: #fff;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.75rem;
+            width: 38px;
+            height: 38px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* Hill Climb Style Game Over Box */
+        .hcr-dialog {
+            background: #1e1b4b;
+            border: 6px solid #ef4444;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.9);
+            padding: 25px;
             width: 100%;
-            padding: 12px 14px;
-            background: #1e293b;
-            color: #f8fafc;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            outline: none;
+            max-width: 420px;
+            text-align: center;
+            animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
-        .btn-upload { background: linear-gradient(135deg, #ec4899, #8b5cf6); color: #fff; }
-        .btn-reset { background: #334155; color: #cbd5e1; font-weight: 500; }
-        input[type="file"] { display: none; }
-        
-        footer { width: 100%; text-align: center; padding: 1.2rem; background: #050811; color: #64748b; font-size: 0.8rem; margin-top: auto; }
+        @keyframes popIn {
+            0% { transform: scale(0.7); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .stat-badge {
+            background: rgba(0,0,0,0.4);
+            border-radius: 10px;
+            padding: 10px;
+            margin: 8px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.75rem;
+        }
+
+        /* Grid Items for Skins & Levels */
+        .item-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            margin: 15px 0;
+        }
+        .grid-card {
+            background: #0f172a;
+            border: 2px solid #334155;
+            border-radius: 10px;
+            padding: 12px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .grid-card.active { border-color: #22c55e; box-shadow: 0 0 12px #22c55e; }
+        .grid-card.locked { opacity: 0.5; filter: grayscale(1); }
+        .grid-card h4 { font-size: 0.85rem; margin-top: 6px; }
+
+        input, textarea {
+            width: 100%;
+            background: #0f172a;
+            border: 2px solid #475569;
+            color: #fff;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            font-family: inherit;
+        }
     </style>
 </head>
 <body>
 
-    <header>
-        <div class="brand">
-            <span class="logo">🐦 Chuchu Bird</span>
-            <span class="caption">Made By Tejash</span>
-        </div>
-        <nav>
-            <a href="index.html" class="active">Home</a>
-            <a href="about.html">About</a>
-            <a href="ideas.html">Your Ideas</a>
-        </nav>
-    </header>
+    <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
 
-    <main>
-        <div class="game-card">
-            <!-- Canvas with internal HD resolution -->
-            <canvas id="gameCanvas" width="720" height="1000"></canvas>
+    <div id="game-container">
+        <canvas id="gameCanvas" width="720" height="1280"></canvas>
 
-            <div class="controls-stack">
-                <!-- 1. Start Button -->
-                <button class="btn-ui btn-start" id="startBtn" onclick="handleAction()">▶ START / JUMP</button>
-                
-                <!-- 2. Level / Map Selection -->
-                <select class="select-ui" id="mapSelect" onchange="changeMap(this.value)">
-                    <option value="jungle_day">🌴 Jungle (Day Light)</option>
-                    <option value="jungle_night">🌙 Jungle (Night Glow)</option>
-                    <option value="mystic_jungle">🌿 Mystic Rainforest</option>
-                    <option value="neon_city">🏙️ Neon Cyber City</option>
-                    <option value="sunset_city">🌇 Sunset Metropolis</option>
-                </select>
+        <div id="in-game-hud" class="hidden">
+            <div class="hud-stat-box">🪙 <span id="hudCoins">0</span></div>
+            
+            <div class="progress-container">
+                <div class="progress-header">
+                    <span id="levelLabel">LVL 1</span>
+                    <span id="distLabel">0m / 50m</span>
+                </div>
+                <div class="progress-bar-fill" id="progressBar"></div>
+            </div>
 
-                <!-- 3. Skin Selection -->
-                <select class="select-ui" id="skinSelect" onchange="changeDefaultSkin(this.value)">
-                    <option value="yellow">🐥 Golden Chuchu</option>
-                    <option value="phoenix">🔥 Neon Phoenix</option>
-                    <option value="cyber">🤖 Cyber Drone</option>
-                    <option value="pinky">🌸 Pink Blossom</option>
-                </select>
-
-                <!-- 4. Custom HD Skin Upload -->
-                <label class="btn-ui btn-upload">
-                    📷 Upload Custom HD Skin
-                    <input type="file" id="skinUpload" accept="image/*">
-                </label>
-
-                <!-- 5. Reset Custom Skin -->
-                <button class="btn-ui btn-reset" onclick="resetSkin()">🔄 Reset to Default Skin</button>
+            <div class="hud-buttons">
+                <button class="hud-icon-btn" onclick="togglePause()">⏸</button>
+                <button class="hud-icon-btn" onclick="quickRestart()">🔄</button>
+                <button class="hud-icon-btn" onclick="returnToHome()">🏠</button>
             </div>
         </div>
-    </main>
 
-    <footer>
-        <p>&copy; 2026 Chuchu Bird Arcade. Developed by Tejash.</p>
-    </footer>
+        <div id="mainMenu" class="overlay-screen">
+            <h1 class="retro-title">CHUCHU BIRD</h1>
+            <p class="creator-caption">MADE BY TEJASH</p>
+            
+            <div class="menu-btn-group">
+                <button class="pixel-btn btn-start" onclick="startGame()">▶ PLAY GAME</button>
+                <button class="pixel-btn btn-levels" onclick="showScreen('levelModal')">🗺️ SELECT LEVEL</button>
+                <button class="pixel-btn btn-shop" onclick="showScreen('skinModal')">👕 SKINS & SHOP</button>
+                <button class="pixel-btn btn-ideas" onclick="showScreen('ideasModal')">💡 YOUR IDEAS</button>
+                <button class="pixel-btn btn-about" onclick="showScreen('aboutModal')">ℹ️ ABOUT GAME</button>
+            </div>
+        </div>
+
+        <div id="levelModal" class="overlay-screen hidden">
+            <div class="modal-box">
+                <h2 class="modal-title">SELECT MAP</h2>
+                <div class="item-grid" id="levelGrid"></div>
+                <button class="pixel-btn btn-secondary" onclick="showScreen('mainMenu')">BACK</button>
+            </div>
+        </div>
+
+        <div id="skinModal" class="overlay-screen hidden">
+            <div class="modal-box">
+                <h2 class="modal-title">BIRD SKINS</h2>
+                <div class="hud-stat-box" style="justify-content: center; margin-bottom: 10px;">
+                    YOUR COINS: 🪙 <span id="shopCoins">0</span>
+                </div>
+                <div class="item-grid" id="skinGrid"></div>
+
+                <div id="customSkinSection" style="margin-top: 15px; border-top: 1px dashed #475569; padding-top: 10px;">
+                    <p id="customSkinLockMsg" style="color: #f87171; font-size: 0.8rem; font-family: 'Press Start 2P'; margin-bottom: 8px;">
+                        🔒 Clear Level 2 (100m) to Unlock Custom Skin Upload!
+                    </p>
+                    <label id="uploadBtnLabel" class="pixel-btn btn-start hidden" style="display: block; cursor: pointer;">
+                        📷 Upload HD Skin Image
+                        <input type="file" id="skinUploadInput" accept="image/*" style="display:none;">
+                    </label>
+                </div>
+
+                <button class="pixel-btn btn-secondary" style="margin-top: 15px;" onclick="showScreen('mainMenu')">BACK</button>
+            </div>
+        </div>
+
+        <div id="ideasModal" class="overlay-screen hidden">
+            <div class="modal-box">
+                <h2 class="modal-title">SEND YOUR IDEAS</h2>
+                <p style="color:#94a3b8; font-size:0.85rem; margin-bottom: 12px;">Got ideas for skins, levels or sounds? Send them straight to Tejash on WhatsApp!</p>
+                <input type="text" id="ideaName" placeholder="Your Name">
+                <textarea id="ideaText" rows="4" placeholder="Your suggestion / idea..."></textarea>
+                <button class="pixel-btn btn-ideas" style="width:100%; margin-bottom: 10px;" onclick="sendIdeaWhatsApp()">📲 Send to WhatsApp</button>
+                <button class="pixel-btn btn-secondary" onclick="showScreen('mainMenu')">BACK</button>
+            </div>
+        </div>
+
+        <div id="aboutModal" class="overlay-screen hidden">
+            <div class="modal-box">
+                <h2 class="modal-title">ABOUT GAME</h2>
+                <p style="color:#cbd5e1; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; text-align: left;">
+                    <b>Chuchu Bird</b> is an arcade flappy bird runner featuring distance-based levels, sound synthesis, a real-time progress engine, and coin rewards.<br><br>
+                    <b>Developer:</b> Tejash<br>
+                    <b>Assignment:</b> 12th Science IT Practical
+                </p>
+                <button class="pixel-btn btn-secondary" onclick="showScreen('mainMenu')">BACK</button>
+            </div>
+        </div>
+
+        <div id="gameOverModal" class="overlay-screen hidden">
+            <div class="hcr-dialog" id="gameOverCard">
+                <h2 class="modal-title" id="gameOverHeading" style="color: #ef4444;">GAME OVER</h2>
+                
+                <div class="stat-badge">
+                    <span>DISTANCE:</span>
+                    <span id="resDist" style="color: #38bdf8;">0m</span>
+                </div>
+                <div class="stat-badge">
+                    <span>COINS COLLECTED:</span>
+                    <span id="resCoins" style="color: #facc15;">+0</span>
+                </div>
+                <div class="stat-badge">
+                    <span>TOTAL WALLET:</span>
+                    <span id="resTotalCoins" style="color: #4ade80;">0</span>
+                </div>
+
+                <div class="menu-btn-group" style="margin-top: 15px;">
+                    <button class="pixel-btn btn-start" onclick="startGame()">🔄 RETRY</button>
+                    <button class="pixel-btn btn-shop" onclick="showScreen('skinModal')">👕 SKINS</button>
+                    <button class="pixel-btn btn-secondary" onclick="showScreen('mainMenu')">🏠 MAIN MENU</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="pauseModal" class="overlay-screen hidden">
+            <div class="modal-box">
+                <h2 class="modal-title">GAME PAUSED</h2>
+                <div class="menu-btn-group">
+                    <button class="pixel-btn btn-start" onclick="togglePause()">▶ RESUME</button>
+                    <button class="pixel-btn btn-secondary" onclick="quickRestart()">🔄 RESTART</button>
+                    <button class="pixel-btn btn-secondary" onclick="returnToHome()">🏠 HOME</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
-
-        // High quality smoothing flags for HD crisp image rendering
         ctx.imageSmoothingEnabled = true;
         ctx.imageSmoothingQuality = "high";
 
-        // Web Audio Synthesizer
+        // --- ENHANCED AUDIO SYNTHESIZER (No External Sound Files Required) ---
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        function playTone(freq, type, duration) {
+        
+        function ensureAudio() {
             if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function playCustomTone(freq, type, duration, startVol = 0.25, endVol = 0.001) {
+            ensureAudio();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = type;
             osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+            gain.gain.setValueAtTime(startVol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(endVol, audioCtx.currentTime + duration);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start();
             osc.stop(audioCtx.currentTime + duration);
         }
+
+        // Comprehensive SFX Engine
         const sfx = {
-            jump: () => playTone(450, 'sine', 0.12),
-            score: () => playTone(680, 'triangle', 0.2),
-            hit: () => playTone(110, 'sawtooth', 0.3)
+            // 1. Button Press Sound (Snappy pop)
+            button: () => {
+                playCustomTone(600, 'square', 0.05, 0.15);
+                setTimeout(() => playCustomTone(800, 'sine', 0.06, 0.1), 30);
+            },
+            // 2. Bird Flap / Jump
+            jump: () => {
+                playCustomTone(420, 'sine', 0.12, 0.2);
+            },
+            // 3. Points & Coin Collected Sound (Bright double ding)
+            coin: () => {
+                playCustomTone(987, 'triangle', 0.09, 0.3);
+                setTimeout(() => playCustomTone(1318, 'sine', 0.16, 0.3), 70);
+            },
+            // 4. Hit / Pipe Collision Sound (Heavy crunchy thud)
+            hit: () => {
+                playCustomTone(130, 'sawtooth', 0.2, 0.4);
+                setTimeout(() => playCustomTone(65, 'square', 0.25, 0.35), 40);
+            },
+            // 5. Game Over Sound (Sad 8-bit descending arpeggio)
+            gameOver: () => {
+                playCustomTone(440, 'sawtooth', 0.15, 0.25);
+                setTimeout(() => playCustomTone(370, 'sawtooth', 0.15, 0.25), 140);
+                setTimeout(() => playCustomTone(311, 'sawtooth', 0.18, 0.25), 280);
+                setTimeout(() => playCustomTone(220, 'sawtooth', 0.35, 0.3), 420);
+            },
+            // 6. Level Victory Sound (Upbeat fanfare)
+            win: () => {
+                playCustomTone(523, 'sine', 0.12, 0.25);
+                setTimeout(() => playCustomTone(659, 'sine', 0.12, 0.25), 100);
+                setTimeout(() => playCustomTone(783, 'sine', 0.12, 0.25), 200);
+                setTimeout(() => playCustomTone(1046, 'square', 0.3, 0.2), 300);
+            }
         };
 
-        // Game Configuration
-        let gameState = 'START'; // START, PLAY, GAMEOVER
-        let frames = 0;
-        let score = 0;
-        let highScore = localStorage.getItem("chuchu_high") || 0;
-        let currentMap = "jungle_day";
-        let defaultSkinType = "yellow";
+        // Attach Button Press Sound to all UI buttons automatically
+        document.querySelectorAll('button, .pixel-btn').forEach(btn => {
+            btn.addEventListener('pointerdown', () => {
+                sfx.button();
+            });
+        });
 
-        // Bird settings (Enlarged radius = 34px for HD canvas scale)
-        let bird = {
-            x: 140,
-            y: 420,
-            radius: 34,
-            velocity: 0,
-            gravity: 0.45,
-            jump: -9.5,
-            customImg: null
-        };
+        // Background Music Handler
+        const bgMusic = document.getElementById("bgMusic");
+        function playMusic() {
+            bgMusic.play().catch(() => {
+                // Autoplay policy or no music.mp3 found
+            });
+        }
 
+        // Game Configuration & Storage
+        let coins = parseInt(localStorage.getItem("chuchu_coins") || "0");
+        let unlockedLevels = parseInt(localStorage.getItem("chuchu_unlocked_lvl") || "1");
+        let activeLevel = 0;
+        let activeSkin = localStorage.getItem("chuchu_active_skin") || "yellow";
+        let customSkinImg = null;
+
+        const levels = [
+            { id: 1, name: "City Skies", goal: 50, bg: "city", color: "#38bdf8" },
+            { id: 2, name: "Jungle Day", goal: 100, bg: "jungle_day", color: "#22c55e" },
+            { id: 3, name: "Jungle Night", goal: 150, bg: "jungle_night", color: "#064e3b" },
+            { id: 4, name: "Neon Cyber", goal: 200, bg: "neon", color: "#a855f7" },
+            { id: 5, name: "Sunset Horizon", goal: 250, bg: "sunset", color: "#f97316" }
+        ];
+
+        const skins = [
+            { id: "yellow", name: "Chuchu", cost: 0, unlocked: true, color: "#facc15" },
+            { id: "red", name: "Phoenix", cost: 30, unlocked: false, color: "#ef4444" },
+            { id: "cyber", name: "Cyber-99", cost: 60, unlocked: false, color: "#06b6d4" },
+            { id: "pink", name: "Blossom", cost: 100, unlocked: false, color: "#f472b6" }
+        ];
+
+        // Load skin unlock states
+        let storedSkins = JSON.parse(localStorage.getItem("chuchu_unlocked_skins") || "{}");
+        skins.forEach(s => { if (storedSkins[s.id]) s.unlocked = true; });
+
+        // Game State Variables
+        let gameState = 'MENU'; // MENU, PLAY, PAUSE, GAMEOVER
+        let bird = { x: 160, y: 500, radius: 36, velocity: 0, gravity: 0.52, jump: -10.2 };
         let pipes = [];
-        const pipeWidth = 86;
-        const pipeGap = 260;
+        let coinPickups = [];
+        let currentDistance = 0;
+        let sessionCoins = 0;
+        let frameCount = 0;
 
-        // Custom HD Image Processing
-        document.getElementById('skinUpload').addEventListener('change', function(e) {
+        // Custom Skin File Loader
+        document.getElementById('skinUploadInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(evt) {
+                reader.onload = (evt) => {
                     const img = new Image();
                     img.src = evt.target.result;
-                    img.onload = () => { bird.customImg = img; };
+                    img.onload = () => {
+                        customSkinImg = img;
+                        activeSkin = "custom";
+                        sfx.win();
+                        alert("✨ Custom Skin Applied Successfully!");
+                        renderSkinShop();
+                    };
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        function resetSkin() {
-            bird.customImg = null;
-            document.getElementById('skinUpload').value = '';
+        // UI & Screen Switching
+        function showScreen(screenId) {
+            document.querySelectorAll('.overlay-screen').forEach(s => s.classList.add('hidden'));
+            if (screenId) document.getElementById(screenId).classList.remove('hidden');
+            if (screenId === 'levelModal') renderLevelSelect();
+            if (screenId === 'skinModal') renderSkinShop();
         }
 
-        function changeMap(val) { currentMap = val; }
-        function changeDefaultSkin(val) { defaultSkinType = val; bird.customImg = null; }
+        function renderLevelSelect() {
+            const grid = document.getElementById('levelGrid');
+            grid.innerHTML = '';
+            levels.forEach((lvl, idx) => {
+                const isLocked = lvl.id > unlockedLevels;
+                const card = document.createElement('div');
+                card.className = `grid-card ${idx === activeLevel ? 'active' : ''} ${isLocked ? 'locked' : ''}`;
+                card.innerHTML = `
+                    <div style="font-size:1.5rem;">${isLocked ? '🔒' : '🚩'}</div>
+                    <h4>${lvl.name}</h4>
+                    <p style="font-size:0.75rem; color:#94a3b8;">Goal: ${lvl.goal}m</p>
+                `;
+                if (!isLocked) {
+                    card.onclick = () => { sfx.button(); activeLevel = idx; renderLevelSelect(); };
+                }
+                grid.appendChild(card);
+            });
+        }
 
-        function handleAction() {
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            if (gameState === 'START') {
-                resetGame();
-                sfx.jump();
-            } else if (gameState === 'PLAY') {
-                bird.velocity = bird.jump;
-                sfx.jump();
-            } else if (gameState === 'GAMEOVER') {
-                resetGame();
+        function renderSkinShop() {
+            document.getElementById('shopCoins').innerText = coins;
+            const grid = document.getElementById('skinGrid');
+            grid.innerHTML = '';
+            
+            skins.forEach(s => {
+                const card = document.createElement('div');
+                card.className = `grid-card ${activeSkin === s.id ? 'active' : ''}`;
+                card.innerHTML = `
+                    <div style="width:36px; height:36px; border-radius:50%; background:${s.color}; margin:0 auto; border:2px solid #fff;"></div>
+                    <h4>${s.name}</h4>
+                    <p style="font-size:0.75rem; color:#facc15;">${s.unlocked ? 'Unlocked' : `🪙 ${s.cost}`}</p>
+                `;
+                card.onclick = () => selectOrBuySkin(s);
+                grid.appendChild(card);
+            });
+
+            // Unlock custom skin upload if completed Level 2
+            if (unlockedLevels >= 3) {
+                document.getElementById('customSkinLockMsg').classList.add('hidden');
+                document.getElementById('uploadBtnLabel').classList.remove('hidden');
             }
         }
 
-        function resetGame() {
-            bird.y = 420;
+        function selectOrBuySkin(skin) {
+            sfx.button();
+            if (skin.unlocked) {
+                activeSkin = skin.id;
+                customSkinImg = null;
+                localStorage.setItem("chuchu_active_skin", skin.id);
+            } else if (coins >= skin.cost) {
+                coins -= skin.cost;
+                skin.unlocked = true;
+                storedSkins[skin.id] = true;
+                localStorage.setItem("chuchu_coins", coins);
+                localStorage.setItem("chuchu_unlocked_skins", JSON.stringify(storedSkins));
+                activeSkin = skin.id;
+                sfx.coin();
+            } else {
+                alert("❌ Not enough coins! Keep flying to earn more!");
+            }
+            renderSkinShop();
+        }
+
+        // WhatsApp Idea Sender
+        function sendIdeaWhatsApp() {
+            const name = document.getElementById("ideaName").value.trim();
+            const idea = document.getElementById("ideaText").value.trim();
+            if (!name || !idea) { alert("Please provide your name and your idea!"); return; }
+            const msg = `Hi Tejash! 🐦%0A%0A*Name:* ${encodeURIComponent(name)}%0A*Idea for Chuchu Bird:* ${encodeURIComponent(idea)}`;
+            window.open(`https://wa.me/919226014759?text=${msg}`, "_blank");
+        }
+
+        // Core Game Loops
+        function startGame() {
+            showScreen(null);
+            document.getElementById('in-game-hud').classList.remove('hidden');
+            bird.y = 500;
             bird.velocity = 0;
             pipes = [];
-            score = 0;
-            frames = 0;
+            coinPickups = [];
+            currentDistance = 0;
+            sessionCoins = 0;
+            frameCount = 0;
             gameState = 'PLAY';
-            document.getElementById('startBtn').innerText = "⚡ FLAP / FLY";
+            playMusic();
+            sfx.jump();
         }
 
-        function triggerGameOver() {
-            gameState = 'GAMEOVER';
-            document.getElementById('startBtn').innerText = "🔄 PLAY AGAIN";
+        function togglePause() {
+            if (gameState === 'PLAY') {
+                gameState = 'PAUSE';
+                showScreen('pauseModal');
+            } else if (gameState === 'PAUSE') {
+                showScreen(null);
+                gameState = 'PLAY';
+            }
         }
 
-        window.addEventListener('keydown', (e) => { if (e.code === 'Space') handleAction(); });
-        canvas.addEventListener('pointerdown', (e) => { e.preventDefault(); handleAction(); });
+        function quickRestart() {
+            startGame();
+        }
 
-        // Physics Loop
+        function returnToHome() {
+            gameState = 'MENU';
+            document.getElementById('in-game-hud').classList.add('hidden');
+            showScreen('mainMenu');
+        }
+
+        function flap() {
+            ensureAudio();
+            if (gameState === 'PLAY') {
+                bird.velocity = bird.jump;
+                sfx.jump();
+            }
+        }
+
+        window.addEventListener('keydown', (e) => { if (e.code === 'Space') flap(); });
+        canvas.addEventListener('pointerdown', (e) => {
+            if (gameState === 'PLAY') flap();
+        });
+
+        // Game Engine Loop
         function loop() {
             update();
             render();
-            frames++;
             requestAnimationFrame(loop);
         }
 
         function update() {
             if (gameState !== 'PLAY') return;
+            frameCount++;
 
             bird.velocity += bird.gravity;
             bird.y += bird.velocity;
 
-            // Floor & Ceiling bounds
-            if (bird.y + bird.radius >= canvas.height - 40) {
-                sfx.hit();
-                triggerGameOver();
+            // Distance meter
+            if (frameCount % 6 === 0) currentDistance++;
+
+            const currentLvl = levels[activeLevel];
+            const progressPercent = Math.min(100, (currentDistance / currentLvl.goal) * 100);
+            document.getElementById('progressBar').style.width = progressPercent + '%';
+            document.getElementById('levelLabel').innerText = `LVL ${currentLvl.id}`;
+            document.getElementById('distLabel').innerText = `${currentDistance}m / ${currentLvl.goal}m`;
+            document.getElementById('hudCoins').innerText = sessionCoins;
+
+            // Check Level Victory
+            if (currentDistance >= currentLvl.goal) {
+                handleVictory();
+                return;
             }
-            if (bird.y - bird.radius <= 0) bird.y = bird.radius;
 
-            // Spawn Pipes
-            if (frames % 120 === 0) {
-                let maxTop = canvas.height - pipeGap - 160;
-                let topH = Math.floor(Math.random() * (maxTop - 120)) + 120;
-                pipes.push({ x: canvas.width, top: topH, passed: false });
+            // Floor / Roof Collision
+            if (bird.y + bird.radius >= canvas.height - 80 || bird.y - bird.radius <= 0) {
+                handleGameOver(false);
+                return;
             }
 
-            for (let i = 0; i < pipes.length; i++) {
-                let p = pipes[i];
-                p.x -= 3.2;
+            // Pipe & Coin Spawning
+            if (frameCount % 110 === 0) {
+                const pipeGap = 280;
+                const topHeight = Math.floor(Math.random() * (canvas.height - pipeGap - 300)) + 120;
+                pipes.push({ x: canvas.width, top: topHeight, gap: pipeGap, passed: false });
 
-                // Precision Hitbox
-                let bR = bird.x + bird.radius - 4;
-                let bL = bird.x - bird.radius + 4;
-                let bT = bird.y - bird.radius + 4;
-                let bB = bird.y + bird.radius - 4;
+                // Spawn Coin in middle of pipe
+                coinPickups.push({ x: canvas.width + 45, y: topHeight + (pipeGap / 2), radius: 18, collected: false });
+            }
 
-                let bottomPipeY = p.top + pipeGap;
+            // Pipe Updates & Collisions
+            for (let i = pipes.length - 1; i >= 0; i--) {
+                const p = pipes[i];
+                p.x -= 4.2;
 
-                if (bR > p.x && bL < p.x + pipeWidth) {
-                    if (bT < p.top || bB > bottomPipeY) {
-                        sfx.hit();
-                        triggerGameOver();
+                const birdRight = bird.x + bird.radius - 6;
+                const birdLeft = bird.x - bird.radius + 6;
+                const birdTop = bird.y - bird.radius + 6;
+                const birdBottom = bird.y + bird.radius - 6;
+
+                if (birdRight > p.x && birdLeft < p.x + 90) {
+                    if (birdTop < p.top || birdBottom > p.top + p.gap) {
+                        handleGameOver(false);
+                        return;
                     }
                 }
 
-                if (!p.passed && p.x + pipeWidth < bird.x) {
-                    score++;
+                if (!p.passed && p.x + 90 < bird.x) {
                     p.passed = true;
-                    sfx.score();
-                    if (score > highScore) {
-                        highScore = score;
-                        localStorage.setItem("chuchu_high", highScore);
-                    }
-                }
-            }
-
-            pipes = pipes.filter(p => p.x + pipeWidth > 0);
-        }
-
-        // Map Themes & Rendering
-        function drawBackground() {
-            if (currentMap === "jungle_day") {
-                let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                grad.addColorStop(0, "#38bdf8");
-                grad.addColorStop(0.6, "#a7f3d0");
-                grad.addColorStop(1, "#15803d");
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                // Distant jungle hills
-                ctx.fillStyle = "rgba(22, 101, 52, 0.4)";
-                ctx.beginPath();
-                ctx.arc(150, 900, 300, 0, Math.PI * 2);
-                ctx.arc(550, 900, 350, 0, Math.PI * 2);
-                ctx.fill();
-            } else if (currentMap === "jungle_night") {
-                let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                grad.addColorStop(0, "#022c22");
-                grad.addColorStop(0.6, "#064e3b");
-                grad.addColorStop(1, "#020617");
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                
-                // Moon
-                ctx.fillStyle = "#fef08a";
-                ctx.beginPath();
-                ctx.arc(600, 140, 45, 0, Math.PI * 2);
-                ctx.fill();
-            } else if (currentMap === "mystic_jungle") {
-                let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                grad.addColorStop(0, "#1e1b4b");
-                grad.addColorStop(0.5, "#4c1d95");
-                grad.addColorStop(1, "#065f46");
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-            } else if (currentMap === "neon_city") {
-                let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                grad.addColorStop(0, "#0f172a");
-                grad.addColorStop(0.7, "#3b0764");
-                grad.addColorStop(1, "#1e1b4b");
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-            } else if (currentMap === "sunset_city") {
-                let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
-                grad.addColorStop(0, "#f97316");
-                grad.addColorStop(0.5, "#ec4899");
-                grad.addColorStop(1, "#1e1b4b");
-                ctx.fillStyle = grad;
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-            }
-
-            // Ground Bar
-            ctx.fillStyle = "#111827";
-            ctx.fillRect(0, canvas.height - 40, canvas.width, 40);
-        }
-
-        function drawPipes() {
-            for (let p of pipes) {
-                let grad = ctx.createLinearGradient(p.x, 0, p.x + pipeWidth, 0);
-                if (currentMap.includes("jungle")) {
-                    grad.addColorStop(0, "#166534");
-                    grad.addColorStop(0.5, "#22c55e");
-                    grad.addColorStop(1, "#14532d");
-                } else {
-                    grad.addColorStop(0, "#0284c7");
-                    grad.addColorStop(0.5, "#38bdf8");
-                    grad.addColorStop(1, "#0369a1");
+                    // Passing pipe adds point sound
+                    sfx.coin();
                 }
 
-                ctx.fillStyle = grad;
-                // Top Pipe
-                ctx.fillRect(p.x, 0, pipeWidth, p.top);
-                ctx.fillRect(p.x - 6, p.top - 24, pipeWidth + 12, 24);
-                // Bottom Pipe
-                let bY = p.top + pipeGap;
-                ctx.fillRect(p.x, bY, pipeWidth, canvas.height - bY - 40);
-                ctx.fillRect(p.x - 6, bY, pipeWidth + 12, 24);
+                if (p.x < -100) pipes.splice(i, 1);
+            }
+
+            // Coin Pickups
+            for (let i = coinPickups.length - 1; i >= 0; i--) {
+                const c = coinPickups[i];
+                c.x -= 4.2;
+
+                const dist = Math.hypot(bird.x - c.x, bird.y - c.y);
+                if (dist < bird.radius + c.radius && !c.collected) {
+                    c.collected = true;
+                    sessionCoins += 5;
+                    sfx.coin();
+                    coinPickups.splice(i, 1);
+                }
+                if (c.x < -40) coinPickups.splice(i, 1);
             }
         }
 
+        function handleVictory() {
+            sfx.win();
+            gameState = 'GAMEOVER';
+            if (unlockedLevels <= levels[activeLevel].id) {
+                unlockedLevels = levels[activeLevel].id + 1;
+                localStorage.setItem("chuchu_unlocked_lvl", unlockedLevels);
+            }
+            showGameOverCard(true);
+        }
+
+        function handleGameOver(isWin) {
+            sfx.hit();
+            setTimeout(() => sfx.gameOver(), 150);
+            gameState = 'GAMEOVER';
+            showGameOverCard(isWin);
+        }
+
+        function showGameOverCard(isWin) {
+            coins += sessionCoins;
+            localStorage.setItem("chuchu_coins", coins);
+
+            document.getElementById('gameOverHeading').innerText = isWin ? "🎉 LEVEL CLEARED!" : "💥 CRASHED!";
+            document.getElementById('gameOverHeading').style.color = isWin ? "#4ade80" : "#ef4444";
+            document.getElementById('gameOverCard').style.borderColor = isWin ? "#22c55e" : "#ef4444";
+            
+            document.getElementById('resDist').innerText = `${currentDistance}m`;
+            document.getElementById('resCoins').innerText = `+${sessionCoins}`;
+            document.getElementById('resTotalCoins').innerText = coins;
+
+            showScreen('gameOverModal');
+        }
+
+        // Render Graphics Engine
         function render() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawBackground();
-            drawPipes();
+            drawThemeBackground();
+
+            // Render Pipes
+            for (let p of pipes) {
+                drawPipe(p.x, 0, 90, p.top);
+                drawPipe(p.x, p.top + p.gap, 90, canvas.height - (p.top + p.gap) - 80);
+            }
+
+            // Render Coins
+            for (let c of coinPickups) {
+                ctx.fillStyle = "#facc15";
+                ctx.beginPath();
+                ctx.arc(c.x, c.y, c.radius, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.strokeStyle = "#ca8a04";
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.fillStyle = "#000";
+                ctx.font = "bold 14px 'Press Start 2P'";
+                ctx.textAlign = "center";
+                ctx.fillText("$", c.x, c.y + 5);
+            }
 
             // Render Bird
             ctx.save();
             ctx.translate(bird.x, bird.y);
-            let angle = Math.min(Math.PI / 4, Math.max(-Math.PI / 4, (bird.velocity * 3.5) * Math.PI / 180));
-            ctx.rotate(angle);
+            const rot = Math.min(Math.PI / 4, Math.max(-Math.PI / 4, (bird.velocity * 3) * Math.PI / 180));
+            ctx.rotate(rot);
 
-            if (bird.customImg) {
-                // High Quality Circular Cropped Image Render
+            if (customSkinImg && activeSkin === 'custom') {
                 ctx.save();
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
-                ctx.closePath();
                 ctx.clip();
-                ctx.drawImage(bird.customImg, -bird.radius, -bird.radius, bird.radius * 2, bird.radius * 2);
+                ctx.drawImage(customSkinImg, -bird.radius, -bird.radius, bird.radius * 2, bird.radius * 2);
                 ctx.restore();
-
-                // Clean glowing boundary ring
                 ctx.strokeStyle = "#38bdf8";
-                ctx.lineWidth = 3.5;
+                ctx.lineWidth = 4;
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
                 ctx.stroke();
             } else {
-                // Built-in Aesthetic Skins
-                let bodyColor = "#fbbf24";
-                if (defaultSkinType === "phoenix") bodyColor = "#ef4444";
-                if (defaultSkinType === "cyber") bodyColor = "#06b6d4";
-                if (defaultSkinType === "pinky") bodyColor = "#f472b6";
-
-                ctx.fillStyle = bodyColor;
+                const currentSkinObj = skins.find(s => s.id === activeSkin) || skins[0];
+                ctx.fillStyle = currentSkinObj.color;
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
                 ctx.fill();
+                ctx.strokeStyle = "#000";
+                ctx.lineWidth = 4;
+                ctx.stroke();
 
-                // Big Eye
-                ctx.fillStyle = "#ffffff";
+                // Eye
+                ctx.fillStyle = "#fff";
                 ctx.beginPath();
-                ctx.arc(12, -8, 8, 0, Math.PI * 2);
+                ctx.arc(14, -8, 10, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.fillStyle = "#0f172a";
+                ctx.fillStyle = "#000";
                 ctx.beginPath();
-                ctx.arc(14, -8, 4, 0, Math.PI * 2);
+                ctx.arc(17, -8, 5, 0, Math.PI * 2);
                 ctx.fill();
 
                 // Beak
                 ctx.fillStyle = "#f97316";
                 ctx.beginPath();
-                ctx.moveTo(18, 0);
-                ctx.lineTo(36, 6);
-                ctx.lineTo(18, 14);
+                ctx.moveTo(22, 0);
+                ctx.lineTo(40, 8);
+                ctx.lineTo(22, 16);
                 ctx.fill();
             }
             ctx.restore();
 
-            // Overlay HUD
-            ctx.fillStyle = "#ffffff";
-            ctx.font = "bold 44px 'Segoe UI', sans-serif";
-            ctx.textAlign = "center";
-
-            if (gameState === 'START') {
-                ctx.fillText("🐦 CHUCHU BIRD", canvas.width / 2, 340);
-                ctx.font = "24px 'Segoe UI'";
-                ctx.fillStyle = "#cbd5e1";
-                ctx.fillText("TAP OR PRESS START TO FLY", canvas.width / 2, 400);
-            } else if (gameState === 'PLAY') {
-                ctx.fillText(score, canvas.width / 2, 90);
-            } else if (gameState === 'GAMEOVER') {
-                ctx.fillStyle = "#f43f5e";
-                ctx.fillText("GAME OVER", canvas.width / 2, 340);
-                ctx.fillStyle = "#f8fafc";
-                ctx.font = "30px 'Segoe UI'";
-                ctx.fillText("Score: " + score, canvas.width / 2, 400);
-                ctx.fillText("Best Score: " + highScore, canvas.width / 2, 450);
-            }
+            // Ground Grass / City Road
+            ctx.fillStyle = "#1e293b";
+            ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
+            ctx.fillStyle = "#22c55e";
+            ctx.fillRect(0, canvas.height - 80, canvas.width, 14);
         }
 
+        function drawPipe(x, y, w, h) {
+            ctx.fillStyle = "#16a34a";
+            ctx.fillRect(x, y, w, h);
+            ctx.fillStyle = "#22c55e";
+            ctx.fillRect(x + 10, y, 16, h);
+            ctx.strokeStyle = "#000";
+            ctx.lineWidth = 4;
+            ctx.strokeRect(x, y, w, h);
+        }
+
+        function drawThemeBackground() {
+            const bg = levels[activeLevel].bg;
+            let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+            
+            if (bg === "city") {
+                grad.addColorStop(0, "#38bdf8");
+                grad.addColorStop(1, "#bae6fd");
+            } else if (bg === "jungle_day") {
+                grad.addColorStop(0, "#22c55e");
+                grad.addColorStop(1, "#14532d");
+            } else if (bg === "jungle_night") {
+                grad.addColorStop(0, "#022c22");
+                grad.addColorStop(1, "#0f172a");
+            } else if (bg === "neon") {
+                grad.addColorStop(0, "#3b0764");
+                grad.addColorStop(1, "#0f172a");
+            } else if (bg === "sunset") {
+                grad.addColorStop(0, "#f97316");
+                grad.addColorStop(1, "#4c0519");
+            }
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+
+        // Start animation loop
         loop();
     </script>
 </body>
