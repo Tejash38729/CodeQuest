@@ -3,8 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta name="description" content="Chuchu Bird - Fullscreen arcade flappy game with level progress, coins, skins shop, and custom skin unlocks. Created by Tejash.">
-    <meta name="author" content="Tejash">
     <title>Chuchu Bird - Made By Tejash</title>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Outfit:wght@400;600;800&display=swap');
@@ -39,7 +37,7 @@
             image-rendering: crisp-edges;
         }
 
-        /* Fullscreen Overlay Menus */
+        /* Fullscreen Overlays */
         .overlay-screen {
             position: absolute;
             inset: 0;
@@ -56,7 +54,6 @@
 
         .hidden { display: none !important; }
 
-        /* Retro Arcade Typography */
         .retro-title {
             font-family: 'Press Start 2P', cursive;
             font-size: clamp(1.8rem, 5vw, 3.2rem);
@@ -82,7 +79,6 @@
             100% { transform: translateY(-8px); }
         }
 
-        /* Menu Buttons */
         .menu-btn-group {
             display: flex;
             flex-direction: column;
@@ -99,7 +95,7 @@
             border-radius: 10px;
             cursor: pointer;
             text-align: center;
-            transition: transform 0.1s, filter 0.2s;
+            transition: transform 0.1s;
             box-shadow: inset 0 -4px 0 rgba(0,0,0,0.35), 0 4px 0 #000;
             display: flex;
             align-items: center;
@@ -115,7 +111,7 @@
         .btn-about { background: linear-gradient(180deg, #a855f7, #6b21a8); color: #fff; }
         .btn-secondary { background: linear-gradient(180deg, #475569, #1e293b); color: #fff; }
 
-        /* Long Horizontal Top HUD */
+        /* Top HUD */
         #in-game-hud {
             position: absolute;
             top: 12px;
@@ -144,7 +140,6 @@
             white-space: nowrap;
         }
 
-        /* Extra Long Horizontal Progress Bar */
         .progress-container {
             flex: 1;
             width: 100%;
@@ -182,7 +177,6 @@
             box-shadow: 0 0 10px rgba(34, 197, 94, 0.6);
         }
 
-        /* Hamburger Button */
         .hamburger-btn {
             background: rgba(15, 23, 42, 0.9);
             border: 2px solid #38bdf8;
@@ -196,59 +190,9 @@
             align-items: center;
             justify-content: center;
             box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            transition: transform 0.1s, background 0.2s;
         }
         .hamburger-btn:active { transform: scale(0.92); background: #38bdf8; color: #000; }
 
-        /* Game Over & Victory Dialog */
-        .hcr-dialog {
-            background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
-            border: 4px solid #ef4444;
-            border-radius: 24px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(239, 68, 68, 0.2);
-            padding: 28px 24px;
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-            animation: popIn 0.35s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            position: relative;
-        }
-        @keyframes popIn {
-            0% { transform: scale(0.7); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
-
-        .hcr-ribbon {
-            display: inline-block;
-            padding: 8px 20px;
-            border-radius: 12px;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 1.1rem;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        .ribbon-lost { background: #ef4444; color: #fff; text-shadow: 2px 2px 0 #000; }
-        .ribbon-won { background: #22c55e; color: #fff; text-shadow: 2px 2px 0 #000; }
-
-        .stat-card-group {
-            background: rgba(0, 0, 0, 0.4);
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            border-radius: 14px;
-            padding: 12px 14px;
-            margin-bottom: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-        .stat-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Press Start 2P', cursive;
-            font-size: 0.72rem;
-        }
-
-        /* Modal Dialog Box */
         .modal-box {
             background: #1e293b;
             border: 3px solid #38bdf8;
@@ -292,11 +236,51 @@
         .grid-card h4 { font-size: 0.82rem; margin-top: 8px; }
 
         .skin-preview-thumb {
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
             border-radius: 50%;
             object-fit: cover;
             border: 2px solid #fff;
+        }
+
+        /* Game Over Dialog */
+        .hcr-dialog {
+            background: linear-gradient(180deg, #1e1b4b 0%, #0f172a 100%);
+            border: 4px solid #ef4444;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9);
+            padding: 28px 24px;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        .hcr-ribbon {
+            display: inline-block;
+            padding: 8px 20px;
+            border-radius: 12px;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+        }
+        .ribbon-lost { background: #ef4444; color: #fff; text-shadow: 2px 2px 0 #000; }
+        .ribbon-won { background: #22c55e; color: #fff; text-shadow: 2px 2px 0 #000; }
+
+        .stat-card-group {
+            background: rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 14px;
+            padding: 12px 14px;
+            margin-bottom: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Press Start 2P', cursive;
+            font-size: 0.72rem;
         }
 
         input, textarea {
@@ -313,7 +297,7 @@
 </head>
 <body>
 
-    <audio id="bgMusic" src="music.mp3" loop preload="auto"></audio>
+    <audio id="bgMusic" loop preload="auto"></audio>
 
     <div id="game-container">
         <canvas id="gameCanvas" width="720" height="1280"></canvas>
@@ -375,7 +359,7 @@
                 <div class="item-grid" id="skinGrid"></div>
 
                 <div id="customSkinSection" style="margin-top: 15px; border-top: 1px dashed #475569; padding-top: 12px;">
-                    <p id="customSkinLockMsg" style="color: #f87171; font-size: 0.72rem; font-family: 'Press Start 2P'; margin-bottom: 8px; line-height: 1.5;">
+                    <p id="customSkinLockMsg" style="color: #f87171; font-size: 0.72rem; font-family: 'Press Start 2P'; margin-bottom: 8px;">
                         🔒 Clear Level 2 (100m) to Unlock Custom Skin Upload!
                     </p>
                     <label id="uploadBtnLabel" class="pixel-btn btn-start hidden" style="display: block; cursor: pointer;">
@@ -403,7 +387,7 @@
             <div class="modal-box">
                 <h2 class="modal-title">ABOUT GAME</h2>
                 <p style="color:#cbd5e1; font-size: 0.9rem; line-height: 1.6; margin-bottom: 15px; text-align: left;">
-                    <b>Chuchu Bird</b> is an arcade flappy bird runner featuring distance-based levels, sound synthesis, a real-time progress engine, and coin rewards.<br><br>
+                    <b>Chuchu Bird</b> is an arcade flappy runner featuring real-time maps, custom audio tracks per character, rotating 3D coins, and skin upgrades.<br><br>
                     <b>Developer:</b> Tejash<br>
                     <b>Assignment:</b> 12th Science IT Practical
                 </p>
@@ -414,22 +398,11 @@
         <div id="gameOverModal" class="overlay-screen hidden">
             <div class="hcr-dialog" id="gameOverCard">
                 <div id="gameOverRibbon" class="hcr-ribbon ribbon-lost">CRASHED!</div>
-                
                 <div class="stat-card-group">
-                    <div class="stat-row">
-                        <span style="color:#94a3b8;">DISTANCE:</span>
-                        <span id="resDist" style="color:#38bdf8;">0m</span>
-                    </div>
-                    <div class="stat-row">
-                        <span style="color:#94a3b8;">COINS EARNED:</span>
-                        <span id="resCoins" style="color:#facc15;">+0</span>
-                    </div>
-                    <div class="stat-row">
-                        <span style="color:#94a3b8;">TOTAL WALLET:</span>
-                        <span id="resTotalCoins" style="color:#4ade80;">0</span>
-                    </div>
+                    <div class="stat-row"><span style="color:#94a3b8;">DISTANCE:</span><span id="resDist" style="color:#38bdf8;">0m</span></div>
+                    <div class="stat-row"><span style="color:#94a3b8;">COINS EARNED:</span><span id="resCoins" style="color:#facc15;">+0</span></div>
+                    <div class="stat-row"><span style="color:#94a3b8;">TOTAL WALLET:</span><span id="resTotalCoins" style="color:#4ade80;">0</span></div>
                 </div>
-
                 <div class="menu-btn-group" style="margin: 0 auto;">
                     <button class="pixel-btn btn-start" onclick="startGame()">🔄 PLAY AGAIN</button>
                     <button class="pixel-btn btn-shop" onclick="showScreen('skinModal')">👕 SKINS & SHOP</button>
@@ -442,21 +415,19 @@
     <script>
         const canvas = document.getElementById("gameCanvas");
         const ctx = canvas.getContext("2d");
-        ctx.imageSmoothingEnabled = true;
-        ctx.imageSmoothingQuality = "high";
 
-        // Web Audio Synthesizer
+        // Web Audio Synthesizer SFX
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
         function ensureAudio() { if (audioCtx.state === 'suspended') audioCtx.resume(); }
 
-        function playCustomTone(freq, type, duration, startVol = 0.25, endVol = 0.001) {
+        function playTone(freq, type, duration, vol = 0.25) {
             ensureAudio();
             const osc = audioCtx.createOscillator();
             const gain = audioCtx.createGain();
             osc.type = type;
             osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
-            gain.gain.setValueAtTime(startVol, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(endVol, audioCtx.currentTime + duration);
+            gain.gain.setValueAtTime(vol, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + duration);
             osc.connect(gain);
             gain.connect(audioCtx.destination);
             osc.start();
@@ -464,43 +435,30 @@
         }
 
         const sfx = {
-            button: () => {
-                playCustomTone(600, 'square', 0.05, 0.15);
-                setTimeout(() => playCustomTone(800, 'sine', 0.06, 0.1), 30);
-            },
-            jump: () => playCustomTone(420, 'sine', 0.12, 0.2),
+            button: () => playTone(700, 'sine', 0.06, 0.15),
+            jump: () => playTone(430, 'sine', 0.12, 0.2),
             coin: () => {
-                playCustomTone(987, 'triangle', 0.09, 0.3);
-                setTimeout(() => playCustomTone(1318, 'sine', 0.16, 0.3), 70);
+                playTone(987, 'triangle', 0.08, 0.25);
+                setTimeout(() => playTone(1318, 'sine', 0.15, 0.25), 70);
             },
-            hit: () => {
-                playCustomTone(130, 'sawtooth', 0.2, 0.4);
-                setTimeout(() => playCustomTone(65, 'square', 0.25, 0.35), 40);
-            },
+            hit: () => playTone(100, 'sawtooth', 0.25, 0.35),
             gameOver: () => {
-                playCustomTone(440, 'sawtooth', 0.15, 0.25);
-                setTimeout(() => playCustomTone(370, 'sawtooth', 0.15, 0.25), 140);
-                setTimeout(() => playCustomTone(311, 'sawtooth', 0.18, 0.25), 280);
-                setTimeout(() => playCustomTone(220, 'sawtooth', 0.35, 0.3), 420);
+                playTone(370, 'sawtooth', 0.15, 0.25);
+                setTimeout(() => playTone(220, 'sawtooth', 0.3, 0.3), 200);
             },
             win: () => {
-                playCustomTone(523, 'sine', 0.12, 0.25);
-                setTimeout(() => playCustomTone(659, 'sine', 0.12, 0.25), 100);
-                setTimeout(() => playCustomTone(783, 'sine', 0.12, 0.25), 200);
-                setTimeout(() => playCustomTone(1046, 'square', 0.3, 0.2), 300);
+                playTone(523, 'sine', 0.1, 0.2);
+                setTimeout(() => playTone(659, 'sine', 0.1, 0.2), 100);
+                setTimeout(() => playTone(1046, 'square', 0.25, 0.2), 200);
             }
         };
 
-        // Attach Button Sound
+        // UI Button SFX
         document.querySelectorAll('button, .pixel-btn').forEach(btn => {
             btn.addEventListener('pointerdown', () => sfx.button());
         });
 
-        // Background Music
-        const bgMusic = document.getElementById("bgMusic");
-        function playMusic() { bgMusic.play().catch(() => {}); }
-
-        // Optional External Texture for Coin Sprite (if you upload coin.png)
+        // 3D Rotating Animated Coin Texture
         const coinSpriteImg = new Image();
         coinSpriteImg.src = "coin.png";
         let coinTextureLoaded = false;
@@ -510,26 +468,35 @@
         let coins = parseInt(localStorage.getItem("chuchu_coins") || "0");
         let unlockedLevels = parseInt(localStorage.getItem("chuchu_unlocked_lvl") || "1");
         let activeLevel = 0;
-        let activeSkin = localStorage.getItem("chuchu_active_skin") || "flappy";
+        
+        // ChuChu (Crow) is default skin
+        let activeSkin = localStorage.getItem("chuchu_active_skin") || "chuchu";
         let customSkinImg = null;
 
+        // Maps / Backgrounds with PNG texture loader
         const levels = [
-            { id: 1, name: "City Skies", goal: 50, bg: "city", color: "#38bdf8" },
-            { id: 2, name: "Jungle Day", goal: 100, bg: "jungle_day", color: "#22c55e" },
-            { id: 3, name: "Jungle Night", goal: 150, bg: "jungle_night", color: "#064e3b" },
-            { id: 4, name: "Neon Cyber", goal: 200, bg: "neon", color: "#a855f7" },
-            { id: 5, name: "Sunset Horizon", goal: 250, bg: "sunset", color: "#f97316" }
+            { id: 1, name: "City Skies", goal: 50, file: "city.png", color: "#38bdf8" },
+            { id: 2, name: "Jungle Day", goal: 100, file: "jungle_day.png", color: "#22c55e" },
+            { id: 3, name: "Jungle Night", goal: 150, file: "jungle_night.png", color: "#064e3b" },
+            { id: 4, name: "Neon Cyber", goal: 200, file: "neon.png", color: "#a855f7" },
+            { id: 5, name: "Sunset Horizon", goal: 250, file: "sunset.png", color: "#f97316" }
         ];
 
-        // Custom named skins with auto-loading image textures
+        levels.forEach(lvl => {
+            lvl.img = new Image();
+            lvl.img.src = lvl.file;
+            lvl.loaded = false;
+            lvl.img.onload = () => { lvl.loaded = true; };
+        });
+
+        // Skins with dedicated MP3 music tracks & textures
         const skins = [
-            { id: "flappy", name: "Flappy", file: "Flappy.png", cost: 0, unlocked: true, color: "#facc15" },
-            { id: "modi", name: "Modi", file: "Modi.png", cost: 30, unlocked: false, color: "#f97316" },
-            { id: "cyber", name: "Cyber", file: "Cyber.png", cost: 60, unlocked: false, color: "#06b6d4" },
-            { id: "blossom", name: "Blossom", file: "Blossom.png", cost: 100, unlocked: false, color: "#f472b6" }
+            { id: "chuchu", name: "ChuChu (Crow)", file: "ChuChu.png", music: "ChuChu.mp3", cost: 0, unlocked: true, color: "#1e293b" },
+            { id: "modi", name: "Modi", file: "Modi.png", music: "Modi.mp3", cost: 30, unlocked: false, color: "#f97316" },
+            { id: "cyber", name: "Cyber", file: "Cyber.png", music: "Cyber.mp3", cost: 60, unlocked: false, color: "#06b6d4" },
+            { id: "blossom", name: "Blossom", file: "Blossom.png", music: "Blossom.mp3", cost: 100, unlocked: false, color: "#f472b6" }
         ];
 
-        // Preload skin textures
         skins.forEach(s => {
             s.img = new Image();
             s.img.src = s.file;
@@ -540,8 +507,21 @@
         let storedSkins = JSON.parse(localStorage.getItem("chuchu_unlocked_skins") || "{}");
         skins.forEach(s => { if (storedSkins[s.id]) s.unlocked = true; });
 
+        // Per-Skin Music Controller
+        const bgMusic = document.getElementById("bgMusic");
+        function playCurrentSkinMusic() {
+            const currentSkinObj = skins.find(s => s.id === activeSkin);
+            const musicTrack = (currentSkinObj && currentSkinObj.music) ? currentSkinObj.music : "ChuChu.mp3";
+            
+            if (!bgMusic.src.includes(musicTrack)) {
+                bgMusic.src = musicTrack;
+                bgMusic.load();
+            }
+            bgMusic.play().catch(() => {});
+        }
+
         // Game State Variables
-        let gameState = 'MENU'; // MENU, PLAY, PAUSE, GAMEOVER
+        let gameState = 'MENU';
         let bird = { x: 160, y: 500, radius: 36, velocity: 0, gravity: 0.50, jump: -10.0 };
         let pipes = [];
         let coinPickups = [];
@@ -549,7 +529,7 @@
         let sessionCoins = 0;
         let frameCount = 0;
 
-        // Custom Skin File Loader
+        // Custom Skin Uploader
         document.getElementById('skinUploadInput').addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
@@ -561,7 +541,6 @@
                         customSkinImg = img;
                         activeSkin = "custom";
                         sfx.win();
-                        alert("✨ Custom Skin Applied Successfully!");
                         renderSkinShop();
                     };
                 };
@@ -569,7 +548,6 @@
             }
         });
 
-        // UI & Modal Controllers
         function showScreen(screenId) {
             document.querySelectorAll('.overlay-screen').forEach(s => s.classList.add('hidden'));
             if (screenId) document.getElementById(screenId).classList.remove('hidden');
@@ -581,6 +559,7 @@
             if (gameState === 'PLAY') {
                 sfx.button();
                 gameState = 'PAUSE';
+                bgMusic.pause();
                 showScreen('hamburgerModal');
             }
         }
@@ -589,6 +568,7 @@
             sfx.button();
             showScreen(null);
             gameState = 'PLAY';
+            bgMusic.play().catch(()=>{});
         }
 
         function quickRestart() {
@@ -599,6 +579,7 @@
         function returnToHome() {
             sfx.button();
             gameState = 'MENU';
+            bgMusic.pause();
             document.getElementById('in-game-hud').classList.add('hidden');
             showScreen('mainMenu');
         }
@@ -633,7 +614,7 @@
                 
                 const thumbHtml = s.imgLoaded 
                     ? `<img src="${s.file}" class="skin-preview-thumb" alt="${s.name}">`
-                    : `<div style="width:40px; height:40px; border-radius:50%; background:${s.color}; border:2px solid #fff;"></div>`;
+                    : `<div style="width:44px; height:44px; border-radius:50%; background:${s.color}; border:2px solid #fff;"></div>`;
 
                 card.innerHTML = `
                     ${thumbHtml}
@@ -644,7 +625,6 @@
                 grid.appendChild(card);
             });
 
-            // Unlock custom skin upload if completed Level 2
             if (unlockedLevels >= 3) {
                 document.getElementById('customSkinLockMsg').classList.add('hidden');
                 document.getElementById('uploadBtnLabel').classList.remove('hidden');
@@ -666,12 +646,11 @@
                 activeSkin = skin.id;
                 sfx.coin();
             } else {
-                alert("❌ Not enough coins! Keep flying to earn more!");
+                alert("❌ Not enough coins! Complete levels to earn more!");
             }
             renderSkinShop();
         }
 
-        // WhatsApp Idea Sender
         function sendIdeaWhatsApp() {
             const name = document.getElementById("ideaName").value.trim();
             const idea = document.getElementById("ideaText").value.trim();
@@ -680,7 +659,6 @@
             window.open(`https://wa.me/919226014759?text=${msg}`, "_blank");
         }
 
-        // Gameplay Controller
         function startGame() {
             showScreen(null);
             document.getElementById('in-game-hud').classList.remove('hidden');
@@ -692,7 +670,7 @@
             sessionCoins = 0;
             frameCount = 0;
             gameState = 'PLAY';
-            playMusic();
+            playCurrentSkinMusic();
             sfx.jump();
         }
 
@@ -705,9 +683,8 @@
         }
 
         window.addEventListener('keydown', (e) => { if (e.code === 'Space') flap(); });
-        canvas.addEventListener('pointerdown', (e) => { if (gameState === 'PLAY') flap(); });
+        canvas.addEventListener('pointerdown', () => { if (gameState === 'PLAY') flap(); });
 
-        // Game Loop
         function loop() {
             update();
             render();
@@ -721,7 +698,6 @@
             bird.velocity += bird.gravity;
             bird.y += bird.velocity;
 
-            // Slow balanced distance meter progression
             if (frameCount % 28 === 0) {
                 currentDistance++;
             }
@@ -733,25 +709,21 @@
             document.getElementById('distLabel').innerText = `${currentDistance}m / ${currentLvl.goal}m`;
             document.getElementById('hudCoins').innerText = sessionCoins;
 
-            // Level Cleared
             if (currentDistance >= currentLvl.goal) {
                 handleVictory();
                 return;
             }
 
-            // Boundary Hit
             if (bird.y + bird.radius >= canvas.height - 80 || bird.y - bird.radius <= 0) {
                 handleGameOver(false);
                 return;
             }
 
-            // Pipe & Coin Spawning
             if (frameCount % 115 === 0) {
                 const pipeGap = 285;
                 const topHeight = Math.floor(Math.random() * (canvas.height - pipeGap - 320)) + 120;
                 pipes.push({ x: canvas.width, top: topHeight, gap: pipeGap, passed: false });
 
-                // Spawn Coin with rotating angle property
                 coinPickups.push({
                     x: canvas.width + 45,
                     y: topHeight + (pipeGap / 2),
@@ -761,7 +733,7 @@
                 });
             }
 
-            // Pipe Collisions
+            // Pipes collision
             for (let i = pipes.length - 1; i >= 0; i--) {
                 const p = pipes[i];
                 p.x -= 3.8;
@@ -786,11 +758,10 @@
                 if (p.x < -100) pipes.splice(i, 1);
             }
 
-            // Coin Updates & Collisions
+            // Coin 3D rotation & collection
             for (let i = coinPickups.length - 1; i >= 0; i--) {
                 const c = coinPickups[i];
                 c.x -= 3.8;
-                // Rotate coin continuously around its Y axis
                 c.angle += 0.08;
 
                 const dist = Math.hypot(bird.x - c.x, bird.y - c.y);
@@ -807,6 +778,7 @@
         function handleVictory() {
             sfx.win();
             gameState = 'GAMEOVER';
+            bgMusic.pause();
             if (unlockedLevels <= levels[activeLevel].id) {
                 unlockedLevels = levels[activeLevel].id + 1;
                 localStorage.setItem("chuchu_unlocked_lvl", unlockedLevels);
@@ -818,6 +790,7 @@
             sfx.hit();
             setTimeout(() => sfx.gameOver(), 120);
             gameState = 'GAMEOVER';
+            bgMusic.pause();
             showGameOverCard(isWin);
         }
 
@@ -832,12 +805,10 @@
                 ribbon.className = "hcr-ribbon ribbon-won";
                 ribbon.innerText = "🎉 LEVEL CLEARED!";
                 card.style.borderColor = "#22c55e";
-                card.style.boxShadow = "0 20px 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(34, 197, 94, 0.2)";
             } else {
                 ribbon.className = "hcr-ribbon ribbon-lost";
                 ribbon.innerText = "💥 CRASHED!";
                 card.style.borderColor = "#ef4444";
-                card.style.boxShadow = "0 20px 60px rgba(0,0,0,0.9), inset 0 0 30px rgba(239, 68, 68, 0.2)";
             }
 
             document.getElementById('resDist').innerText = `${currentDistance}m`;
@@ -847,23 +818,20 @@
             showScreen('gameOverModal');
         }
 
-        // Render Graphics Engine
         function render() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawThemeBackground();
+            drawBackgroundMap();
 
-            // Pipes
             for (let p of pipes) {
                 drawPipe(p.x, 0, 90, p.top);
                 drawPipe(p.x, p.top + p.gap, 90, canvas.height - (p.top + p.gap) - 80);
             }
 
-            // Rotating 3D Coins
             for (let c of coinPickups) {
                 drawSpinningCoin(c);
             }
 
-            // Bird Character Rendering
+            // Bird Character
             ctx.save();
             ctx.translate(bird.x, bird.y);
             const rot = Math.min(Math.PI / 4, Math.max(-Math.PI / 4, (bird.velocity * 3) * Math.PI / 180));
@@ -872,7 +840,6 @@
             const activeSkinObj = skins.find(s => s.id === activeSkin);
 
             if (customSkinImg && activeSkin === 'custom') {
-                // Uploaded custom skin
                 ctx.save();
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
@@ -885,7 +852,7 @@
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
                 ctx.stroke();
             } else if (activeSkinObj && activeSkinObj.imgLoaded) {
-                // Loaded PNG texture skin (Flappy.png, Modi.png, Cyber.png, etc.)
+                // Renders ChuChu.png / Modi.png / Cyber.png / Blossom.png
                 ctx.save();
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
@@ -898,44 +865,43 @@
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
                 ctx.stroke();
             } else {
-                // Fallback vector drawing if image is not uploaded yet
-                const skinColor = activeSkinObj ? activeSkinObj.color : "#facc15";
-                ctx.fillStyle = skinColor;
+                // Fallback Drawing (Default Crow Style)
+                ctx.fillStyle = activeSkinObj ? activeSkinObj.color : "#0f172a";
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.strokeStyle = "#000";
+                ctx.strokeStyle = "#475569";
                 ctx.lineWidth = 4;
                 ctx.stroke();
 
                 // Eye
-                ctx.fillStyle = "#fff";
+                ctx.fillStyle = "#facc15";
                 ctx.beginPath();
-                ctx.arc(14, -8, 10, 0, Math.PI * 2);
+                ctx.arc(14, -8, 9, 0, Math.PI * 2);
                 ctx.fill();
                 ctx.fillStyle = "#000";
                 ctx.beginPath();
-                ctx.arc(17, -8, 5, 0, Math.PI * 2);
+                ctx.arc(16, -8, 4, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Beak
-                ctx.fillStyle = "#f97316";
+                // Crow Beak
+                ctx.fillStyle = "#020617";
                 ctx.beginPath();
-                ctx.moveTo(22, 0);
-                ctx.lineTo(40, 8);
-                ctx.lineTo(22, 16);
+                ctx.moveTo(20, -2);
+                ctx.lineTo(42, 6);
+                ctx.lineTo(20, 14);
                 ctx.fill();
             }
             ctx.restore();
 
-            // Ground Road
+            // Ground Track
             ctx.fillStyle = "#1e293b";
             ctx.fillRect(0, canvas.height - 80, canvas.width, 80);
             ctx.fillStyle = "#22c55e";
             ctx.fillRect(0, canvas.height - 80, canvas.width, 14);
         }
 
-        // 3D Rotating Animated Coin Renderer
+        // 3D Axis-Rotating Animated Coins
         function drawSpinningCoin(c) {
             const scaleX = Math.cos(c.angle);
             const r = c.radius;
@@ -944,7 +910,63 @@
             ctx.translate(c.x, c.y);
 
             if (coinTextureLoaded) {
-                // Draw rotating custom sprite image
+                ctx.scale(scaleX, 1);
+                ctx.drawImage(coinSpriteImg, -r, -r, r * 2, r * 2);
+            } else {
+                ctx.scale(scaleX, 1);
+
+                ctx.fillStyle = "#b45309";
+                ctx.beginPath();
+                ctx.arc(2, 0, r, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.fillStyle = (scaleX > 0) ? "#facc15" : "#eab308";
+                ctx.beginPath();
+                ctx.arc(0, 0, r, 0, Math.PI * 2);
+                ctx.fill();
+
+                ctx.strokeStyle = "#ca8a04";
+                ctx.lineWidth = 2.5;
+                ctx.stroke();
+
+                ctx.fillStyle = "#78350f";
+                ctx.font = "bold 13px 'Press Start 2P'";
+                ctx.textAlign = "center";
+                ctx.textBaseline = "middle";
+                ctx.fillText("★", 0, 1);
+            }
+            ctx.restore();
+        }
+
+        function drawPipe(x, y, w, h) {
+            ctx.fillStyle = "#16a34a";
+            ctx.fillRect(x, y, w, h);
+            ctx.fillStyle = "#22c55e";
+            ctx.fillRect(x + 10, y, 16, h);
+            ctx.strokeStyle = "#000";
+            ctx.lineWidth = 4;
+            ctx.strokeRect(x, y, w, h);
+        }
+
+        // Background Map Rendering (Loads PNG or falls back to gradient)
+        function drawBackgroundMap() {
+            const lvl = levels[activeLevel];
+            if (lvl.loaded) {
+                ctx.drawImage(lvl.img, 0, 0, canvas.width, canvas.height);
+            } else {
+                let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
+                grad.addColorStop(0, lvl.color);
+                grad.addColorStop(1, "#0f172a");
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        loop();
+    </script>
+</body>
+</html>
+rite image
                 ctx.scale(scaleX, 1);
                 ctx.drawImage(coinSpriteImg, -r, -r, r * 2, r * 2);
             } else {
