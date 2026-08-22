@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://tejash38729.github.io/CodeQuest/sitemap.xml
