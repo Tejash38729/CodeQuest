@@ -12,7 +12,6 @@
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
     <meta name="language" content="English">
     <meta name="revisit-after" content="7 days">
-    <meta name="generator" content="HTML5 / Canvas">
     <link rel="canonical" href="https://tejash38729.github.io/CodeQuest/">
 
     <meta name="google-site-verification" content="fQRtcXM4TOpwxH87usF68RR5Jctr35n5ju-CIDzYyaY" />
@@ -20,22 +19,22 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Chuchu Bird">
     <meta property="og:url" content="https://tejash38729.github.io/CodeQuest/">
-    <meta property="og:title" content="Chuchu Bird - Play Free Online Flappy Crow Arcade Game">
-    <meta property="og:description" content="Dodge obstacles, unlock epic skins, and explore 5 worlds with custom music in Chuchu Bird! Created by Tejash.">
-    <meta property="og:image" content="https://tejash38729.github.io/CodeQuest/ChuChu.png">
-    <meta property="og:image:secure_url" content="https://tejash38729.github.io/CodeQuest/ChuChu.png">
+    <meta property="og:title" content="Chuchu Bird - Play Free Online Flappy Crow Arcade Game | By Tejash">
+    <meta property="og:description" content="Play Chuchu Bird online for free! Fly as ChuChu the Crow through 5 exciting maps, unlock custom skins, and beat high scores. Created by Tejash.">
+    <meta property="og:image" content="https://tejash38729.github.io/CodeQuest/og-banner.png">
+    <meta property="og:image:secure_url" content="https://tejash38729.github.io/CodeQuest/og-banner.png">
     <meta property="og:image:type" content="image/png">
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="Chuchu Bird Game Artwork">
+    <meta property="og:image:alt" content="Chuchu Bird - Online Flappy Crow Arcade Game by Tejash">
     <meta property="og:locale" content="en_US">
 
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://tejash38729.github.io/CodeQuest/">
-    <meta name="twitter:title" content="Chuchu Bird - Online Flappy Crow Arcade Game">
-    <meta name="twitter:description" content="Play Chuchu Bird online for free right in your browser! Fly through 5 worlds, collect 3D coins, and unlock custom skins.">
-    <meta name="twitter:image" content="https://tejash38729.github.io/CodeQuest/ChuChu.png">
-    <meta name="twitter:image:alt" content="Chuchu Bird Game Banner">
+    <meta name="twitter:title" content="Chuchu Bird - Play Free Online Flappy Crow Arcade Game | By Tejash">
+    <meta name="twitter:description" content="Play Chuchu Bird online for free! Fly through 5 worlds, collect 3D coins, and unlock custom skins.">
+    <meta name="twitter:image" content="https://tejash38729.github.io/CodeQuest/og-banner.png">
+    <meta name="twitter:image:alt" content="Chuchu Bird Game Artwork Banner">
 
     <meta property="al:web:url" content="https://tejash38729.github.io/CodeQuest/">
 
@@ -61,7 +60,7 @@
       "applicationCategory": "Game",
       "operatingSystem": "Any",
       "url": "https://tejash38729.github.io/CodeQuest/",
-      "image": "https://tejash38729.github.io/CodeQuest/ChuChu.png",
+      "image": "https://tejash38729.github.io/CodeQuest/og-banner.png",
       "author": {
         "@type": "Person",
         "name": "Tejash"
@@ -1032,7 +1031,6 @@
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
                 ctx.stroke();
             } else if (activeSkinObj && activeSkinObj.imgLoaded) {
-                // Renders ChuChu.png / Modi.png / Cyber.png / Blossom.png
                 ctx.save();
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
@@ -1045,7 +1043,6 @@
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
                 ctx.stroke();
             } else {
-                // Fallback Drawing (Default Crow Style)
                 ctx.fillStyle = activeSkinObj ? activeSkinObj.color : "#0f172a";
                 ctx.beginPath();
                 ctx.arc(0, 0, bird.radius, 0, Math.PI * 2);
@@ -1054,7 +1051,6 @@
                 ctx.lineWidth = 4;
                 ctx.stroke();
 
-                // Eye
                 ctx.fillStyle = "#facc15";
                 ctx.beginPath();
                 ctx.arc(14, -8, 9, 0, Math.PI * 2);
@@ -1064,7 +1060,6 @@
                 ctx.arc(16, -8, 4, 0, Math.PI * 2);
                 ctx.fill();
 
-                // Crow Beak
                 ctx.fillStyle = "#020617";
                 ctx.beginPath();
                 ctx.moveTo(20, -2);
@@ -1128,7 +1123,7 @@
             ctx.strokeRect(x, y, w, h);
         }
 
-        // Background Map Rendering (Loads PNG or falls back to gradient)
+        // Background Map Rendering
         function drawBackgroundMap() {
             const lvl = levels[activeLevel];
             if (lvl.loaded) {
@@ -1137,6 +1132,16 @@
                 let grad = ctx.createLinearGradient(0, 0, 0, canvas.height);
                 grad.addColorStop(0, lvl.color);
                 grad.addColorStop(1, "#0f172a");
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+            }
+        }
+
+        loop();
+    </script>
+</body>
+</html>
+a");
                 ctx.fillStyle = grad;
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
             }
